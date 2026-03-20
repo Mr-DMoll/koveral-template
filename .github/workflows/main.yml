@@ -10,12 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
-        with:
-          version: 10
+        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "pnpm"
+        with: { node-version: 22, cache: "pnpm" }
       - run: pnpm install
       - run: pnpm --filter @repo/database run generate
       - run: pnpm turbo run lint type-check
@@ -31,31 +28,21 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # 🚨 CRITICAL: This must match the region in your ECR Screenshot (us-east-1)
+          # 🚨 MUST BE: us-east-1 (as seen in your URI screenshot)
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and Push
+      - name: Build & Push
         env:
+          # This ensures we use the EXACT registry URI from your screenshot
           ECR: ${{ steps.login-ecr.outputs.registry }}
           REPO: ${{ secrets.ECR_REPO_NAME }}
         run: |
-          echo "--- DIAGNOSTIC CHECK ---"
-          echo "Registry found: $ECR"
-          echo "Repo name length: ${#REPO}"
-          
-          if [ -z "$REPO" ]; then
-            echo "❌ FAILURE: REPO variable is empty. Check GitHub Secret: ECR_REPO_NAME"
-            exit 1
-          fi
-
-          echo "Attempting Build: $ECR/$REPO:latest"
+          echo "Syncing to Registry: $ECR"
           docker build -t $ECR/$REPO:latest .
-          
-          echo "Attempting Push: $ECR/$REPO:latest"
           docker push $ECR/$REPO:latest
 
       - name: Deploy App Runner
