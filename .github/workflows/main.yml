@@ -10,9 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v3
-        with: { version: 10 }
+        with:
+          version: 10
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: "pnpm" }
+        with:
+          node-version: 22
+          cache: "pnpm"
       - run: pnpm install
       - run: pnpm --filter @repo/database run generate
       - run: pnpm turbo run lint type-check
@@ -22,30 +25,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and Push
+        env:
+          ECR: ${{ steps.login-ecr.outputs.registry }}
+          REPO: ${{ secrets.ECR_REPO_NAME }}
         run: |
-          # We use vars. for non-sensitive data
-          REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          REPO=${{ vars.ECR_REPO_NAME }}
-          docker build -t $REGISTRY/$REPO:latest .
-          docker push $REGISTRY/$REPO:latest
+          docker build -t $ECR/$REPO:latest .
+          docker push $ECR/$REPO:latest
 
       - name: Deploy App Runner
         run: |
           aws apprunner start-deployment \
-            --service-arn ${{ vars.APP_RUNNER_ARN }} \
-            --region ${{ vars.AWS_REGION }}
+            --service-arn ${{ secrets.APP_RUN_NER_ARN }} \
+            --region ${{ secrets.AWS_REGION }}
 
   deploy-web:
     needs: quality-gate
