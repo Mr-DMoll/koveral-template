@@ -49,7 +49,7 @@ jobs:
         run: |
           aws apprunner start-deployment \
             --service-arn ${{ secrets.APP_RUNNER_ARN }} \
-            --region ${{ secrets.AWS_REGION }}
+            --region ${{ secrets.AWS_REGION }}y
 
   deploy-web:
     needs: quality-gate
@@ -65,4 +65,4 @@ jobs:
           # 🚀 THE FIX: This tells Vercel to look specifically in your account
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
-          working-directory: ./apps/web
+          working-directory: ./
