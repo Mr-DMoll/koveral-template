@@ -14,6 +14,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: "pnpm" }
       - run: pnpm install
+      - run: pnpm --filter @repo/database run generate
       - run: pnpm turbo run lint type-check
 
   deploy-api:
@@ -26,30 +27,33 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Login to ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build & Push
-        env:
-          ECR: ${{ steps.login-ecr.outputs.registry }}
-          REPO: ${{ secrets.ECR_REPOSITORY_NAME }}
+      - name: Build and Push
         run: |
-          docker build -t $ECR/$REPO:latest .
-          docker push $ECR/$REPO:latest
+          # We use vars. for non-sensitive data
+          REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          REPO=${{ vars.ECR_REPO_NAME }}
+          docker build -t $REGISTRY/$REPO:latest .
+          docker push $REGISTRY/$REPO:latest
 
       - name: Deploy App Runner
         run: |
-          aws apprunner start-deployment --service-arn ${{ secrets.AWS_APP_RUNNER_ARN }}
+          aws apprunner start-deployment \
+            --service-arn ${{ vars.APP_RUNNER_ARN }} \
+            --region ${{ vars.AWS_REGION }}
 
   deploy-web:
     needs: quality-gate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: amondnet/vercel-action@v20
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
