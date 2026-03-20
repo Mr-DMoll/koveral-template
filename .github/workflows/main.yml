@@ -65,4 +65,4 @@ jobs:
           # 🚀 THE FIX: This tells Vercel to look specifically in your account
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
-          working-directory: ./apps/web
+          working-directory: ./
