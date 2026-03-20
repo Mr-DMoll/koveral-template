@@ -1,0 +1,16 @@
+{
+  "name": "@repo/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "scripts": {
+    "generate": "prisma generate",
+    "db:push": "prisma db push --accept-data-loss",
+    "build": "pnpm run generate && tsc"
+  },
+  "dependencies": { "@prisma/client": "^6.4.0", "dotenv": "^17.3.1", "pg": "^8.18.0" },
+  "devDependencies": { "prisma": "^6.4.0", "typescript": "latest", "@types/node": "^22.15.3" }
+}
