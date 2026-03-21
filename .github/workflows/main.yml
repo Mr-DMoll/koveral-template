@@ -61,4 +61,4 @@ jobs:
           # 🚀 THE DEFINITIVE FIX: 
           # We point to the specific app folder. 
           # Vercel (set to Root Directory: apps/web) will now accept this upload.
-          working-directory: ./apps/web
+          working-directory: ./
