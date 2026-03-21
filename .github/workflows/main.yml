@@ -49,33 +49,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with: { version: 10 }
-      - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: "pnpm" }
 
-      - name: Install Dependencies
-        run: pnpm install
+      - name: Install Vercel CLI
+        run: npm install --global vercel
 
-      - name: Generate Database Client
-        run: pnpm --filter @repo/database run generate
-
-      - name: Build for Vercel (On GitHub)
-        # 🚀 This command creates the .vercel/output folder inside the GitHub runner.
-        # We use the root directory so it sees all packages.
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        # 🚀 Matches AudioBook. Runs from root (./) to send full context.
+        run: |
+          vercel deploy --prod \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --yes
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_ORG_ID }}
-          # 🚀 THE CRITICAL FLAG: Tells Vercel to skip building and just host the artifact
-          vercel-args: '--prod --prebuilt'
-          working-directory: ./
