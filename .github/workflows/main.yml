@@ -66,11 +66,12 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      - name: Build Web Application
-        # 🚀 We use standard Turbo/Next build (NO Vercel CLI here)
-        # This avoids the Next 16 Turbopack/Sandboxing bug
-        run: pnpm turbo run build --filter=web
+      - name: Build for Vercel
+        # 🚀 This generates the exact folder (.vercel/output) Vercel needs to bypass its own build
+        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Deploy to Vercel
@@ -80,6 +81,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-args: '--prod'
-          # 🚀 Point Vercel to the root. It will find the build inside apps/web
+          # 🚀 THE FIX: --prebuilt skips Vercel's internal build engine, preventing the crash
+          vercel-args: '--prod --prebuilt'
           working-directory: ./
