@@ -2,17 +2,28 @@
 
 import { useEffect, useState } from 'react';
 
+/**
+ * 🏛 AGENCY BLUEPRINT: Generic Landing Page
+ * This page serves as a health-check dashboard for the MERN stack.
+ * It validates that the Frontend can communicate with the AWS App Runner Backend.
+ */
 export default function LandingPage() {
   const [status, setStatus] = useState<'loading' | 'online' | 'offline'>('loading');
   
-  // This will use the URL you set in Vercel, or fallback to local dev
+  // 🚀 Logic: Use the Vercel Environment Variable, or default to local development port
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
   useEffect(() => {
     const checkHealth = async () => {
       try {
-        const response = await fetch(`${apiUrl}/health`, {
+        // 🛠 PATH ALIGNMENT: 
+        // Your Express server uses: app.use("/api/v1/system", systemRoutes);
+        // So the health check must point to exactly that versioned path.
+        const response = await fetch(`${apiUrl}/api/v1/system/health`, {
           method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
           mode: 'cors',
         });
         
@@ -22,7 +33,7 @@ export default function LandingPage() {
           setStatus('offline');
         }
       } catch (error) {
-        console.error('Health check failed:', error);
+        console.error('Handshake failed:', error);
         setStatus('offline');
       }
     };
@@ -33,20 +44,27 @@ export default function LandingPage() {
   return (
     <main style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Project O-Bit</h1>
-        <p style={styles.subtitle}>Agency Blueprint Deployment</p>
+        <header>
+          <h1 style={styles.title}>Project O-Bit</h1>
+          <p style={styles.subtitle}>Full-Stack Agency Blueprint</p>
+        </header>
         
-        <div style={styles.statusBox}>
-          <span style={styles.label}>Backend Status:</span>
-          {status === 'loading' && <span style={styles.loading}>⏳ Checking...</span>}
+        <section style={styles.statusBox}>
+          <span style={styles.label}>Backend Connection:</span>
+          {status === 'loading' && <span style={styles.loading}>⏳ Initializing...</span>}
           {status === 'online' && <span style={styles.online}>🟢 Online</span>}
           {status === 'offline' && <span style={styles.offline}>❌ Offline</span>}
-        </div>
+        </section>
 
-        <div style={styles.info}>
+        <footer style={styles.info}>
           <p><strong>Environment:</strong> {process.env.NODE_ENV}</p>
-          <p><strong>Endpoint:</strong> <code style={styles.code}>{apiUrl}</code></p>
-        </div>
+          <p><strong>API Endpoint:</strong></p>
+          <code style={styles.code}>{apiUrl}/api/v1/system/health</code>
+          
+          <div style={styles.sopNote}>
+            <small>💡 SOP: Ensure NEXT_PUBLIC_API_URL is set in Vercel for production.</small>
+          </div>
+        </footer>
       </div>
     </main>
   );
@@ -58,34 +76,69 @@ const styles = {
     height: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f4f4f9',
-    fontFamily: 'system-ui, sans-serif',
+    backgroundColor: '#f8fafc',
+    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
   },
   card: {
-    padding: '2rem',
-    borderRadius: '12px',
-    backgroundColor: '#fff',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+    padding: '2.5rem',
+    borderRadius: '16px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as const,
     width: '100%',
-    maxWidth: '400px',
+    maxWidth: '450px',
+    border: '1px solid #e2e8f0',
   },
-  title: { margin: 0, fontSize: '24px', color: '#333' },
-  subtitle: { margin: '8px 0 24px', color: '#666', fontSize: '14px' },
+  title: { 
+    margin: 0, 
+    fontSize: '28px', 
+    fontWeight: '800', 
+    color: '#1e293b',
+    letterSpacing: '-0.025em'
+  },
+  subtitle: { 
+    margin: '8px 0 32px', 
+    color: '#64748b', 
+    fontSize: '15px',
+    fontWeight: '500'
+  },
   statusBox: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '10px',
-    padding: '15px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    marginBottom: '20px',
+    gap: '12px',
+    padding: '20px',
+    backgroundColor: '#f1f5f9',
+    borderRadius: '12px',
+    marginBottom: '24px',
+    border: '1px solid #cbd5e1',
   },
-  label: { fontWeight: 'bold' as const, color: '#444' },
-  online: { color: '#2e7d32', fontWeight: 'bold' as const },
-  offline: { color: '#d32f2f', fontWeight: 'bold' as const },
-  loading: { color: '#ffa000' },
-  info: { textAlign: 'left' as const, fontSize: '12px', color: '#888' },
-  code: { backgroundColor: '#eee', padding: '2px 4px', borderRadius: '4px' },
+  label: { fontWeight: '600' as const, color: '#334155' },
+  online: { color: '#15803d', fontWeight: '700' as const },
+  offline: { color: '#b91c1c', fontWeight: '700' as const },
+  loading: { color: '#b45309' },
+  info: { 
+    textAlign: 'left' as const, 
+    fontSize: '13px', 
+    color: '#475569',
+    lineHeight: '1.6'
+  },
+  code: { 
+    display: 'block',
+    marginTop: '4px',
+    backgroundColor: '#1e293b', 
+    color: '#f8fafc',
+    padding: '8px 12px', 
+    borderRadius: '6px',
+    fontSize: '11px',
+    wordBreak: 'break-all' as const,
+    fontFamily: 'monospace'
+  },
+  sopNote: {
+    marginTop: '20px',
+    paddingTop: '15px',
+    borderTop: '1px solid #f1f5f9',
+    color: '#94a3b8',
+    fontStyle: 'italic'
+  }
 };
