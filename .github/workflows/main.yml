@@ -36,6 +36,7 @@ jobs:
           ECR: ${{ steps.login-ecr.outputs.registry }}
           REPO: ${{ secrets.ECR_REPO_NAME }}
         run: |
+          echo "Syncing to Registry: $ECR"
           docker build -t $ECR/$REPO:latest .
           docker push $ECR/$REPO:latest
       - name: Deploy App Runner
@@ -49,38 +50,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with: { version: 10 }
-      - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: "pnpm" }
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Generate Database Client
-        run: pnpm --filter @repo/database run generate
-
-      - name: Pull Vercel Project Settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Build for Vercel
-        # 🚀 This generates the exact folder (.vercel/output) Vercel needs to bypass its own build
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Deploy to Vercel
+        # 🚀 We removed the manual 'pull' and 'build' steps.
+        # By providing the org/project IDs and token, this action tells 
+        # Vercel to look at the repo and run the 'Build Command' we set in the dashboard.
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
-          # 🚀 THE FIX: --prebuilt skips Vercel's internal build engine, preventing the crash
-          vercel-args: '--prod --prebuilt'
+          vercel-args: '--prod'
           working-directory: ./
