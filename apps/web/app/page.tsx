@@ -45,7 +45,7 @@ export default function LandingPage() {
     <main style={styles.container}>
       <div style={styles.card}>
         <header>
-          <h1 style={styles.title}>Project O-Bit</h1>
+          <h1 style={styles.title}>Project O-Bit pronounce O bit</h1>
           <p style={styles.subtitle}>Full-Stack Agency Blueprint</p>
         </header>
         
