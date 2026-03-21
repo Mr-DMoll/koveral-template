@@ -28,7 +28,6 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # 🚨 MUST BE: us-east-1
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to ECR
@@ -37,7 +36,6 @@ jobs:
 
       - name: Build & Push
         env:
-          # This ensures we use the EXACT registry URI from your screenshot
           ECR: ${{ steps.login-ecr.outputs.registry }}
           REPO: ${{ secrets.ECR_REPO_NAME }}
         run: |
@@ -56,13 +54,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Install PNPM
+        uses: pnpm/action-setup@v3
+        with: { version: 10 }
+        
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: { node-version: 22, cache: "pnpm" }
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Generate Database Client
+        run: pnpm --filter @repo/database run generate
+
+      - name: Build Web Application
+        # 🚀 This creates the .next folder that Vercel is looking for
+        run: pnpm turbo run build --filter=web
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          # 🚀 THE FIX: This tells Vercel to look specifically in your account
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
           working-directory: ./
