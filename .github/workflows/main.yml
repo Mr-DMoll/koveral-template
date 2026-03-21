@@ -72,9 +72,11 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build for Vercel
-        # 🚀 THE CRITICAL FIX: Added --no-turbo to disable the failing Turbopack inference
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web --no-turbo
+        # 🚀 REMOVED --no-turbo from the command line
+        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
         env:
+          # 🚀 ADDED internal flag to force Webpack instead of Turbopack
+          NEXT_PRIVATE_PREBOOT_SKIP_TURBOPACK: 1
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
