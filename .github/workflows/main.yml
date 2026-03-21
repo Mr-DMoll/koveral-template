@@ -36,7 +36,6 @@ jobs:
           ECR: ${{ steps.login-ecr.outputs.registry }}
           REPO: ${{ secrets.ECR_REPO_NAME }}
         run: |
-          echo "Syncing to Registry: $ECR"
           docker build -t $ECR/$REPO:latest .
           docker push $ECR/$REPO:latest
       - name: Deploy App Runner
@@ -50,13 +49,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Install PNPM
-        uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v3
         with: { version: 10 }
-        
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with: { node-version: 22, cache: "pnpm" }
 
       - name: Install Dependencies
@@ -66,19 +61,16 @@ jobs:
         run: pnpm --filter @repo/database run generate
 
       - name: Pull Vercel Project Settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      - name: Build for Vercel
-        # 🚀 REMOVED --no-turbo from the command line
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
+      - name: Build Web Application
+        # 🚀 We use standard Turbo/Next build (NO Vercel CLI here)
+        # This avoids the Next 16 Turbopack/Sandboxing bug
+        run: pnpm turbo run build --filter=web
         env:
-          # 🚀 ADDED internal flag to force Webpack instead of Turbopack
-          NEXT_PRIVATE_PREBOOT_SKIP_TURBOPACK: 1
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Deploy to Vercel
@@ -88,5 +80,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-args: '--prod --prebuilt'
-          working-directory: ./apps/web
+          vercel-args: '--prod'
+          # 🚀 Point Vercel to the root. It will find the build inside apps/web
+          working-directory: ./
