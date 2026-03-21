@@ -49,7 +49,7 @@ jobs:
         run: |
           aws apprunner start-deployment \
             --service-arn ${{ secrets.APP_RUNNER_ARN }} \
-            --region ${{ secrets.AWS_REGION }}y
+            --region ${{ secrets.AWS_REGION }}
 
   deploy-web:
     needs: quality-gate
