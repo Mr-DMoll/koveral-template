@@ -66,13 +66,14 @@ jobs:
         run: pnpm --filter @repo/database run generate
 
       - name: Pull Vercel Project Settings
-        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        # 🚀 THE FIX: Added --cwd apps/web so settings are pulled into the app folder
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build for Vercel
-        # 🚀 THE FIX: We add --cwd apps/web so Vercel finds Next.js
+        # 🚀 Now the build command finds the settings in the current working directory
         run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -87,5 +88,5 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod --prebuilt'
-          # 🚀 THE SECOND FIX: Point the deploy action to the same folder
+          # 🚀 Ensure the deployment action looks in the app folder for the .vercel/output
           working-directory: ./apps/web
