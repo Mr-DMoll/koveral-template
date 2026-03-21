@@ -72,11 +72,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build for Vercel
-        # 🚀 THE FIX: We added NEXT_TURBOPACK=0 to force standard compilation
-        # and kept the --cwd apps/web to ensure correct folder context.
-        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
+        # 🚀 THE CRITICAL FIX: Added --no-turbo to disable the failing Turbopack inference
+        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web --no-turbo
         env:
-          NEXT_TURBOPACK: 0
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
