@@ -1,4 +1,4 @@
-import express from "express";
+import express,{Express} from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -9,7 +9,7 @@ import swaggerJsdoc from "swagger-jsdoc";
 import { swaggerConfig } from "./config/swagger.config.js";
 import systemRoutes from "./modules/system/system.routes.js";
 
-const app = express();
+const app:Express = express();
 const isProduction = process.env.NODE_ENV === "production";
 
 // 1. SECURITY & LOGGING
