@@ -36,7 +36,6 @@ jobs:
           ECR: ${{ steps.login-ecr.outputs.registry }}
           REPO: ${{ secrets.ECR_REPO_NAME }}
         run: |
-          echo "Syncing to Registry: $ECR"
           docker build -t $ECR/$REPO:latest .
           docker push $ECR/$REPO:latest
       - name: Deploy App Runner
@@ -52,9 +51,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy to Vercel
-        # 🚀 We removed the manual 'pull' and 'build' steps.
-        # By providing the org/project IDs and token, this action tells 
-        # Vercel to look at the repo and run the 'Build Command' we set in the dashboard.
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -62,4 +58,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
-          working-directory: ./
+          # 🚀 THE DEFINITIVE FIX: 
+          # We point to the specific app folder. 
+          # Vercel (set to Root Directory: apps/web) will now accept this upload.
+          working-directory: ./apps/web
