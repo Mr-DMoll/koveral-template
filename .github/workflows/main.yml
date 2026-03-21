@@ -65,8 +65,15 @@ jobs:
       - name: Generate Database Client
         run: pnpm --filter @repo/database run generate
 
+      - name: Pull Vercel Project Settings
+        # 🔗 Links the runner to your Vercel project metadata
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
       - name: Build for Vercel
-        # 🚀 This generates the .vercel/output folder required by --prebuilt
+        # 🏗️ Generates the .vercel/output folder required by the --prebuilt flag
         run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
