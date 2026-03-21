@@ -66,16 +66,17 @@ jobs:
         run: pnpm --filter @repo/database run generate
 
       - name: Pull Vercel Project Settings
-        # 🚀 THE FIX: Added --cwd apps/web so settings are pulled into the app folder
         run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build for Vercel
-        # 🚀 Now the build command finds the settings in the current working directory
+        # 🚀 THE FIX: We added NEXT_TURBOPACK=0 to force standard compilation
+        # and kept the --cwd apps/web to ensure correct folder context.
         run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd apps/web
         env:
+          NEXT_TURBOPACK: 0
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
@@ -88,5 +89,4 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod --prebuilt'
-          # 🚀 Ensure the deployment action looks in the app folder for the .vercel/output
           working-directory: ./apps/web
