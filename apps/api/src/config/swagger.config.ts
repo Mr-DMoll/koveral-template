@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 // 🚀 SOP: Always pull production URL from Env to keep the file generic
 const liveUrl = process.env.LIVE_URL || "https://rfpxfgdpbq.us-east-1.awsapprunner.com";
-
+//we have added this
 export const swaggerConfig: Options = {
   definition: {
     openapi: "3.0.0",
