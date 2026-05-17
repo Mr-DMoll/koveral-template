@@ -3,7 +3,7 @@ FROM node:22-slim AS builder
 RUN npm install -g pnpm@10 turbo
 WORKDIR /app
 COPY . .
-RUN turbo prune api --docker
+RUN turbo prune @repo/api --docker
 
 # Stage 2: Build & Run
 FROM node:22-slim AS runner
@@ -31,7 +31,7 @@ COPY turbo.json turbo.json
 RUN pnpm --filter @repo/database run generate
 
 # Now build the API (it will now find the generated Prisma types)
-RUN pnpm turbo run build --filter=api
+RUN pnpm turbo run build --filter=@repo/api
 
 # 🚀 THE OBIT FIX: Nuclear permissions for the non-root user
 RUN chown -R nodeuser:nodeuser /app /home/nodeuser
