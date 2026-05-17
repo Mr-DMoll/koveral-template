@@ -9,9 +9,12 @@
     "strict": false,
     "skipLibCheck": true,
     "types": ["node"],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "declaration": false,
+    "sourceMap": false,
+    "paths": {
+      "@repo/database": ["../../packages/database/dist"],
+      "@repo/types": ["../../packages/types/dist"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
