@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/shared/context/AuthContext";
+
+const ROLE_ROUTES: Record<string, string> = {
+  SUPER_ADMIN: "/super-admin",
+  ADMIN:       "/admin",
+  MANAGER:     "/manager",
+  DEVELOPER:   "/developer",
+  CLIENT:      "/client",
+};
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "11px 14px",
@@ -21,14 +29,23 @@ const labelStyle: React.CSSProperties = {
 };
 
 export default function LoginPage() {
-  const router    = useRouter();
-  const { login } = useAuth();
+  const router              = useRouter();
+  const { login, user, isLoading } = useAuth();
 
   const [email,    setEmail]    = useState("");
   const [password, setPassword] = useState("");
   const [showPw,   setShowPw]   = useState(false);
   const [error,    setError]    = useState("");
   const [loading,  setLoading]  = useState(false);
+
+  // Redirect as soon as user is set
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.push(ROLE_ROUTES[user.role] ?? "/");
+    }
+  }, [user, isLoading, router]);
+
+ 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +61,7 @@ export default function LoginPage() {
 
   return (
     <div style={{
-      minHeight: "100vh",
-      background: "#0a0f1a",
+      minHeight: "calc(100vh - 57px)",
       display: "flex", alignItems: "center", justifyContent: "center",
       padding: "24px",
     }}>

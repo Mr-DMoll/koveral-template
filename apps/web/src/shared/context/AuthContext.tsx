@@ -1,7 +1,10 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "@/features/auth/services/auth.service";
+import { useRouter } from "next/navigation";
+
 export type UserRole = "SUPER_ADMIN" | "ADMIN" | "MANAGER" | "DEVELOPER" | "CLIENT";
+
 export interface AuthUser {
   id: string;
   email: string;
@@ -12,6 +15,7 @@ export interface AuthUser {
   avatarUrl?: string | null;
   accountStatus: string;
 }
+
 interface AuthContextType {
   user: AuthUser | null;
   isLoading: boolean;
@@ -19,6 +23,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   setUser: (user: AuthUser | null) => void;
 }
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const ROLE_ROUTES: Record<string, string> = {
@@ -32,21 +37,13 @@ const ROLE_ROUTES: Record<string, string> = {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter(); // ← moved inside the component
 
   useEffect(() => {
     const loadUser = async () => {
       try {
         const response = await authService.getMe();
-        const loadedUser = response.data?.user || null;
-        setUser(loadedUser);
-        // Redirect if on auth pages
-        if (loadedUser && typeof window !== "undefined") {
-          const path = window.location.pathname;
-          const isAuthPage = path === "/login" || path === "/" || path.startsWith("/(auth)");
-          if (isAuthPage) {
-            window.location.href = ROLE_ROUTES[loadedUser.role] ?? "/";
-          }
-        }
+        setUser(response.data?.user || null);
       } catch {
         setUser(null);
       } finally {
@@ -56,9 +53,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadUser();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const response = await authService.login({ email, password });
-    const { user, token } = response.data?.data ?? {};
+  const login = async (email: string, password: string) => {   
+
+    const response = await authService.login({ email, password });  
+    const { user, token } = response.data ?? {};
+
+
     if (token) localStorage.setItem("auth_token", token);
     setUser(user ?? null);
     if (user) {
@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await authService.logout();
     localStorage.removeItem("auth_token");
     setUser(null);
-    window.location.href = "/login";
+    router.push("/login");
   };
 
   return (
