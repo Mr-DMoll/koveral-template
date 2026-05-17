@@ -1,10 +1,7 @@
 "use client";
-
 import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "@/features/auth/services/auth.service";
-
 export type UserRole = "SUPER_ADMIN" | "ADMIN" | "MANAGER" | "DEVELOPER" | "CLIENT";
-
 export interface AuthUser {
   id: string;
   email: string;
@@ -15,7 +12,6 @@ export interface AuthUser {
   avatarUrl?: string | null;
   accountStatus: string;
 }
-
 interface AuthContextType {
   user: AuthUser | null;
   isLoading: boolean;
@@ -23,8 +19,15 @@ interface AuthContextType {
   logout: () => Promise<void>;
   setUser: (user: AuthUser | null) => void;
 }
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+const ROLE_ROUTES: Record<string, string> = {
+  SUPER_ADMIN: "/super-admin",
+  ADMIN:       "/admin",
+  MANAGER:     "/manager",
+  DEVELOPER:   "/developer",
+  CLIENT:      "/client",
+};
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -34,7 +37,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const loadUser = async () => {
       try {
         const response = await authService.getMe();
-        setUser(response.data?.user || null);
+        const loadedUser = response.data?.user || null;
+        setUser(loadedUser);
+        // Redirect if on auth pages
+        if (loadedUser && typeof window !== "undefined") {
+          const path = window.location.pathname;
+          const isAuthPage = path === "/login" || path === "/" || path.startsWith("/(auth)");
+          if (isAuthPage) {
+            window.location.href = ROLE_ROUTES[loadedUser.role] ?? "/";
+          }
+        }
       } catch {
         setUser(null);
       } finally {
@@ -50,22 +62,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (token) localStorage.setItem("auth_token", token);
     setUser(user ?? null);
     if (user) {
-      const roleRoutes: Record<string, string> = {
-        SUPER_ADMIN: "/super-admin",
-        ADMIN:       "/admin",
-        MANAGER:     "/manager",
-        DEVELOPER:   "/developer",
-        CLIENT:      "/client",
-      };
-      window.location.href = roleRoutes[user.role] ?? "/";
+      window.location.href = ROLE_ROUTES[user.role] ?? "/";
     }
   };
 
-  
   const logout = async () => {
     await authService.logout();
+    localStorage.removeItem("auth_token");
     setUser(null);
-    window.location.href = "/"; // hard redirect — clears all state
+    window.location.href = "/login";
   };
 
   return (
