@@ -66,6 +66,7 @@ export const protect = async (
     req.user = {
       userId: currentUser.id,
       role: currentUser.role as Role,
+      email: currentUser.email,
     };
 
     next();

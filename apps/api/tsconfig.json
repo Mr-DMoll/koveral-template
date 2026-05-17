@@ -10,11 +10,7 @@
     "skipLibCheck": true,
     "types": ["node"],
     "declaration": false,
-    "sourceMap": false,
-    "paths": {
-      "@repo/database": ["../../packages/database/dist"],
-      "@repo/types": ["../../packages/types/dist"]
-    }
+    "sourceMap": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
