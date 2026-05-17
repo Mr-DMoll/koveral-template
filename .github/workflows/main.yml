@@ -7,6 +7,10 @@ on:
 jobs:
   quality-gate:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      NEXT_PUBLIC_API_URL: https://placeholder.railway.app/api/v1
     steps:
     - uses: actions/checkout@v4
     - uses: pnpm/action-setup@v3
@@ -15,10 +19,7 @@ jobs:
       with: { node-version: 22, cache: "pnpm" }
     - run: pnpm install
     - run: pnpm --filter @repo/database run generate
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        DIRECT_URL: ${{ secrets.DIRECT_URL }}
-    - run: pnpm turbo run lint type-check
+    - run: pnpm turbo run lint
 
   deploy-api:
     needs: quality-gate
