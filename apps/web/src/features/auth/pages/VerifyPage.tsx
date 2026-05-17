@@ -69,7 +69,7 @@ export default function VerifyPage() {
   const handleResend = async () => {
     setIsResending(true); setResendMsg(null);
     try {
-      await authService.resendVerification({ email });
+      await authService.resendVerification(email);
       setResendMsg("A new code has been sent to your email.");
       setTimeout(() => setResendMsg(null), 4000);
     } catch {

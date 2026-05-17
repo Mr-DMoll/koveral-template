@@ -8,7 +8,7 @@ import { RichDocumentEditor } from "./RichDocumentEditor";
 import { useAuth } from "@/shared/context/AuthContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-interface Document {
+interface ProjectDocument {
   id:          string;
   type:        string;
   title:       string;
@@ -55,7 +55,7 @@ function TypeBadge({ type }: { type: string }) {
   );
 }
 
-function userName(u: Document["uploadedBy"]) {
+function userName(u: ProjectDocument["uploadedBy"]) {
   return u.displayName || [u.firstName, u.lastName].filter(Boolean).join(" ") || u.email;
 }
 
@@ -222,13 +222,13 @@ export function DocumentsTab({ projectId, callerRole }: {
   callerRole: string;
 }) {
   const { user }  = useAuth();
-  const [documents,  setDocuments]  = useState<Document[]>([]);
+  const [documents,  setDocuments]  = useState<ProjectDocument[]>([]);
   const [isLoading,  setIsLoading]  = useState(true);
   const [error,      setError]      = useState<string | null>(null);
   const [showModal,  setShowModal]  = useState(false);
-  const [viewing,    setViewing]    = useState<Document | null>(null);
-  const [editing,    setEditing]    = useState<Document | null>(null); // opens full-page editor
-  const [deleting,   setDeleting]   = useState<Document | null>(null);
+  const [viewing,    setViewing]    = useState<ProjectDocument | null>(null);
+  const [editing,    setEditing]    = useState<ProjectDocument | null>(null); // opens full-page editor
+  const [deleting,   setDeleting]   = useState<ProjectDocument | null>(null);
   const [typeFilter, setTypeFilter] = useState("ALL");
 
   const canManage = ["ADMIN", "SUPER_ADMIN", "MANAGER", "DEVELOPER"].includes(callerRole);
@@ -248,7 +248,7 @@ export function DocumentsTab({ projectId, callerRole }: {
 
   useEffect(() => { fetchDocuments(); }, [fetchDocuments]);
 
-  const handleDelete = async (doc: Document) => {
+  const handleDelete = async (doc: ProjectDocument) => {
     await apiClient.delete(endpoints.documents.delete(projectId, doc.id));
     setDocuments((prev) => prev.filter((d) => d.id !== doc.id));
   };
@@ -421,7 +421,7 @@ export function DocumentsTab({ projectId, callerRole }: {
       {/* Full-page viewer with comments */}
       {viewing && (
         <RichDocumentViewer
-          document={viewing}
+          document={viewing as any}
           projectId={projectId}
           callerRole={callerRole}
           callerId={user?.id ?? ""}

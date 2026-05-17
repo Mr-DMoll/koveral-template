@@ -166,7 +166,7 @@ function ProjectFields({ form, set }: {
 // ─── Create Project Modal ─────────────────────────────────────────────────────
 function CreateProjectModal({ onClose, onCreate, callerRole }: {
   onClose:    () => void;
-  onCreate:   (data: CreateProjectData) => Promise<void>;
+  onCreate:   (data: CreateProjectData) => Promise<any>;
   callerRole: string;
 }) {
   const { users: clients }  = useTeamUsers("CLIENT");

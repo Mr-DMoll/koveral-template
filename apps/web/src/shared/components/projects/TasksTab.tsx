@@ -451,7 +451,7 @@ export function TasksTab({ projectId, callerRole, callerId, projectMembers }: {
     if (canManage) {
       setEditing(task);
       setShowModal(true);
-    } else if (isDeveloper && task.assigneeId === callerId) {
+    } else if (isDeveloper && task.assignee?.id === callerId) {
       setQuickStatus(task);
     }
   };
