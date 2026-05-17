@@ -1,14 +1,16 @@
 {
-  "extends": "../../packages/typescript-config/base.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": ".",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": ".",
     "declaration": true,
-    "types": ["node"],
-    "typeRoots": ["../../node_modules/@types", "./node_modules/@types"]
+    "resolveJsonModule": true
   },
-  "include": ["index.ts", "../../node_modules/.prisma/client/index.d.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "generated/**/*"],
+  "exclude": ["node_modules", "dist", "prisma"]
 }

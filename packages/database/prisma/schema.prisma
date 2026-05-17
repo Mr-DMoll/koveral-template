@@ -1,114 +1,516 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated"
 }
+
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
 }
 
+// ─── ENUMS ─────────────────────────────────────────────────────────────────
 
-// --- ENUMS: The Backbone of Logic ---
-enum UserRole {
+enum Role {
   SUPER_ADMIN
-  AGENCY_MANAGER
-  PROJECT_LEAD
-  CONTRIBUTOR
+  ADMIN
+  MANAGER
+  DEVELOPER
   CLIENT
 }
 
-enum ProjectStatus {
-  DISCOVERY
-  IN_PROGRESS
-  AT_RISK
-  COMPLETED
-  MAINTENANCE
+enum AccountStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  DELETED
 }
 
-enum PaymentStatus {
+enum OtpType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+
+
+// Project lifecycle — matches the full automation flow
+// intake → scope_draft → scope_review → in_design → design_review
+// → contract_draft → contract_review → active → complete → archived
+enum ProjectStatus {
+  INTAKE
+  SCOPE_DRAFT
+  SCOPE_REVIEW
+  IN_DESIGN
+  DESIGN_REVIEW
+  CONTRACT_DRAFT
+  CONTRACT_REVIEW
+  ACTIVE
+  ON_HOLD
+  COMPLETE
+  ARCHIVED
+}
+
+enum MilestoneStatus {
   PENDING
+  IN_PROGRESS
+  SUBMITTED        // dev marks complete, waiting PM approval
+  APPROVED         // PM approves, triggers invoice
+  REJECTED
+}
+
+enum TaskStatus {
+  BACKLOG
+  TODO
+  IN_PROGRESS
+  REVIEW
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum DocumentType {
+  SCOPE
+  CONTRACT
+  SPECIFICATION
+  DESIGN_BRIEF
+  HANDOVER
+  OTHER
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
   PAID
   OVERDUE
-  VOID
+  CANCELLED
 }
 
-// --- CORE MODELS ---
+enum DesignVersionStatus {
+  PENDING_REVIEW
+  CHANGES_REQUESTED
+  APPROVED
+  LOCKED
+}
+
+enum ChangeRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PAID
+}
+
+// ─── USER & AUTH ───────────────────────────────────────────────────────────
 
 model User {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email         String    @unique
-  name          String?
-  role          UserRole  @default(CONTRIBUTOR)
-  avatarUrl     String?   // S3 Link
-  
-  // Relationships
-  managedProjects Project[] @relation("ProjectLead")
-  tasks          Task[]
-  assignedProjects ProjectMember[]
+  id          String             @id @default(cuid())
+  email       String?            @unique 
+  password    String
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role          Role             @default(CLIENT)
+  accountStatus AccountStatus    @default(PENDING)
+  isEmailVerified Boolean        @default(false)
+  firstName          String?
+  lastName           String?
+  displayName        String?
+  avatarUrl          String?
+  language           String?
+  city               String?
+  country            String?
+  dateOfBirth        DateTime?
+  profileCompletedAt DateTime?
+  lastActiveAt       DateTime?
 
-  @@index([email, role]) // Optimized for auth and permission checks
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  otpCodes          OtpCode[]
+  auditLogs         AuditLog[]
+
+  // Project relations
+  managedProjects   Project[]        @relation("ProjectManager")
+  clientProjects    Project[]        @relation("ProjectClient")
+  projectMembers    ProjectMember[]
+  assignedTasks     Task[]           @relation("TaskAssignee")
+  createdTasks      Task[]           @relation("TaskCreator")
+  uploadedDocuments Document[]
+  comments          Comment[]
+  designComments    DesignComment[]
+  notifications     Notification[]
 }
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  target    String
+  type      OtpType
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  meta      Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// ─── INTAKE ────────────────────────────────────────────────────────────────
+// The client's first submission — kicks off the entire project lifecycle
+
+model IntakeForm {
+  id          String   @id @default(cuid())
+  
+  // Contact info (client may not have an account yet)
+  clientName  String
+  clientEmail String
+  clientPhone String?
+  companyName String?
+  
+  // Project info
+  projectName       String
+  projectType       String   // web, mobile, api, design, etc.
+  description       String
+  budgetRange       String?
+  preferredTimeline String?
+  referenceLinks    String[] // any inspiration or reference URLs
+  
+  // Status
+  isConverted Boolean  @default(false) // true once a Project is created from this
+  projectId   String?  @unique         // set when converted
+  project     Project? @relation(fields: [projectId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientEmail])
+}
+
+// ─── PROJECT ───────────────────────────────────────────────────────────────
 
 model Project {
-  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String
-  slug          String        @unique
-  status        ProjectStatus @default(DISCOVERY)
-  budget        Decimal       @db.Decimal(12, 2)
-  
-  // High-Performance Resource Mapping
-  leadId        String        @db.Uuid
-  lead          User          @relation("ProjectLead", fields: [leadId], references: [id])
-  members       ProjectMember[]
-  tasks         Task[]
-  invoices      Invoice[]
-  
-  // S3 Vault Links
-  contractUrl   String?
-  onboardingDoc String?
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  status      ProjectStatus @default(INTAKE)
 
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  // Financial
+  budget      Decimal?  @db.Decimal(12, 2)
+  spent       Decimal   @default(0) @db.Decimal(12, 2)
+  currency    String    @default("ZAR")
+
+  // Timeline
+  startDate   DateTime?
+  deadline    DateTime?
+  completedAt DateTime?
+
+  // External links
+  repositoryUrl String?
+  liveSiteUrl   String?
+  figmaUrl      String?
+
+  // Relations — key people
+  managerId   String
+  manager     User     @relation("ProjectManager", fields: [managerId], references: [id])
+  clientId    String
+  client      User     @relation("ProjectClient", fields: [clientId], references: [id])
+
+  // Intake source
+  intakeForm  IntakeForm?
+
+  // Child entities
+  members     ProjectMember[]
+  milestones  Milestone[]
+  tasks       Task[]
+  documents   Document[]
+  invoices    Invoice[]
+  designVersions DesignVersion[]
+  changeRequests ChangeRequest[]
+  comments    Comment[]
+  notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([status])
-  @@index([leadId])
+  @@index([clientId])
+  @@index([managerId])
 }
 
+// Junction table — all people on a project (devs, additional managers, etc.)
 model ProjectMember {
-  projectId String  @db.Uuid
-  userId    String  @db.Uuid
-  project   Project @relation(fields: [projectId], references: [id])
-  user      User    @relation(fields: [userId], references: [id])
+  id        String  @id @default(cuid())
+  projectId String
+  userId    String
+  role      String  // their role on THIS project e.g. "Lead Developer", "UI Designer"
+  joinedAt  DateTime @default(now())
 
-  @@id([projectId, userId]) // Composite Key for performance
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
 }
+
+// ─── MILESTONE ─────────────────────────────────────────────────────────────
+
+model Milestone {
+  id          String          @id @default(cuid())
+  projectId   String
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String?
+  status      MilestoneStatus @default(PENDING)
+
+  agreedAmount Decimal?  @db.Decimal(12, 2)
+  dueDate      DateTime?
+  completedAt  DateTime?
+
+  // Approval
+  approvedById String?
+  approvedAt   DateTime?
+
+  // Deliverables — free text list of what this milestone includes
+  deliverables String[]
+
+  // Relations
+  tasks    Task[]
+  invoices Invoice[]
+
+  order     Int      @default(0) // display order
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([status])
+}
+
+// ─── TASK ──────────────────────────────────────────────────────────────────
 
 model Task {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String
-  priority    Int      @default(1) // 1-5 scale
-  projectId   String   @db.Uuid
-  project     Project  @relation(fields: [projectId], references: [id])
-  assigneeId  String?  @db.Uuid
-  assignee    User?    @relation(fields: [assigneeId], references: [id])
-  
-  estimatedHours Float?
-  actualHours    Float?
+  id          String       @id @default(cuid())
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestoneId String?
+  milestone   Milestone?   @relation(fields: [milestoneId], references: [id])
 
-  @@index([projectId, assigneeId])
+  title       String
+  description String?
+  status      TaskStatus   @default(BACKLOG)
+  priority    TaskPriority @default(MEDIUM)
+
+  assigneeId  String?
+  assignee    User?        @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  createdById String
+  createdBy   User         @relation("TaskCreator", fields: [createdById], references: [id])
+
+  dueDate     DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([milestoneId])
+  @@index([status])
+  @@index([assigneeId])
 }
 
-model Invoice {
-  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  projectId   String        @db.Uuid
-  project     Project       @relation(fields: [projectId], references: [id])
-  amount      Decimal       @db.Decimal(12, 2)
-  status      PaymentStatus @default(PENDING)
-  dueDate     DateTime
-  stripeId    String?       @unique
+// ─── DOCUMENT ──────────────────────────────────────────────────────────────
 
-  @@index([projectId, status])
+model Document {
+  id        String       @id @default(cuid())
+  projectId String
+  project   Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  type      DocumentType
+  title     String
+  content   String?      // AI-generated content stored as markdown
+  fileUrl   String?      // uploaded file in R2/S3
+  fileSize  Int?         // bytes
+  mimeType  String?
+
+  uploadedById String
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+
+  version   Int      @default(1)
+  isLatest  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([type])
+}
+
+// ─── DESIGN REVIEW ─────────────────────────────────────────────────────────
+
+model DesignVersion {
+  id         String              @id @default(cuid())
+  projectId  String
+  project    Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  versionNum Int                 @default(1)
+  figmaUrl   String?
+  fileUrl    String?             // uploaded screens
+
+  status     DesignVersionStatus @default(PENDING_REVIEW)
+
+  uploadedById String
+  approvedById String?
+  approvedAt   DateTime?
+
+  comments   DesignComment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+}
+
+model DesignComment {
+  id              String        @id @default(cuid())
+  designVersionId String
+  designVersion   DesignVersion @relation(fields: [designVersionId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User   @relation(fields: [authorId], references: [id])
+
+  content   String
+  screenRef String?  // which screen this refers to
+  isResolved Boolean @default(false)
+  resolvedAt DateTime?
+
+  createdAt DateTime @default(now())
+}
+
+// ─── CONTRACT ──────────────────────────────────────────────────────────────
+// Generated from approved scope, references approved design
+
+model Contract {
+  id        String  @id @default(cuid())
+  projectId String  @unique
+  
+  content         String   // full contract text, AI-generated markdown
+  paymentTerms    String?
+  revisionLimit   Int      @default(2)
+  
+  signedByClient  Boolean   @default(false)
+  signedByAgency  Boolean   @default(false)
+  clientSignedAt  DateTime?
+  agencySignedAt  DateTime?
+  
+  // Reference to the design version locked into this contract
+  approvedDesignVersionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── INVOICE ───────────────────────────────────────────────────────────────
+
+model Invoice {
+  id          String        @id @default(cuid())
+  projectId   String
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestoneId String?
+  milestone   Milestone?    @relation(fields: [milestoneId], references: [id])
+
+  invoiceNumber String      @unique
+  amount        Decimal     @db.Decimal(12, 2)
+  currency      String      @default("ZAR")
+  status        InvoiceStatus @default(DRAFT)
+
+  isDeposit     Boolean     @default(false)
+  description   String?
+
+  dueDate    DateTime?
+  sentAt     DateTime?
+  paidAt     DateTime?
+
+  // Stripe
+  stripePaymentIntentId String?
+  stripeInvoiceId       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([status])
+}
+
+// ─── CHANGE REQUEST ────────────────────────────────────────────────────────
+// When client wants changes beyond what's in the contract
+
+model ChangeRequest {
+  id          String              @id @default(cuid())
+  projectId   String
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  type        String              // 'design_revision' | 'scope_change' | 'feature_addition'
+  description String
+  price       Decimal?            @db.Decimal(12, 2)
+  status      ChangeRequestStatus @default(PENDING)
+
+  requestedById String
+  approvedById  String?
+  approvedAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+}
+
+// ─── COMMENTS ──────────────────────────────────────────────────────────────
+// General project comments / messaging thread
+
+model Comment {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  documentId String? 
+  authorId  String
+  author    User   @relation(fields: [authorId], references: [id])
+
+  content   String
+  isInternal Boolean @default(false) // internal = only agency team sees it
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+}
+
+// ─── NOTIFICATIONS ─────────────────────────────────────────────────────────
+
+model Notification {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  title     String
+  message   String
+  type      String   // 'milestone_approved' | 'invoice_sent' | 'design_feedback' | etc.
+  isRead    Boolean  @default(false)
+  readAt    DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
 }
