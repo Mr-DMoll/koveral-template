@@ -44,23 +44,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadUser();
   }, []);
 
-const login = async (email: string, password: string) => {
-  const response = await authService.login({ email, password });
-  const user = response.data?.user || null;
-  setUser(user);
-
-  // Redirect based on role
-  if (user) {
-    const roleRoutes: Record<string, string> = {
-      SUPER_ADMIN: "/super-admin",
-      ADMIN:       "/admin",
-      MANAGER:     "/manager",
-      DEVELOPER:   "/developer",
-      CLIENT:      "/client",
-    };
-    window.location.href = roleRoutes[user.role] ?? "/";
-  }
-};
+  const login = async (email: string, password: string) => {
+    const response = await authService.login({ email, password });
+    const { user, token } = response.data?.data ?? {};
+    if (token) localStorage.setItem("auth_token", token);
+    setUser(user ?? null);
+    if (user) {
+      const roleRoutes: Record<string, string> = {
+        SUPER_ADMIN: "/super-admin",
+        ADMIN:       "/admin",
+        MANAGER:     "/manager",
+        DEVELOPER:   "/developer",
+        CLIENT:      "/client",
+      };
+      window.location.href = roleRoutes[user.role] ?? "/";
+    }
+  };
 
   
   const logout = async () => {

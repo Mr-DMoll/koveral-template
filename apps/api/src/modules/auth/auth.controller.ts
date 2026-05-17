@@ -198,6 +198,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
   return res.status(HttpStatus.OK).json({
     status: "success",
     data: {
+      token,
       user: {
         id:          user.id,
         email:       user.email,
