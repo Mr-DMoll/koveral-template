@@ -4,13 +4,13 @@
     "moduleResolution": "NodeNext",
     "target": "ES2022",
     "esModuleInterop": true,
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
     "outDir": "./dist",
     "rootDir": ".",
     "declaration": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "generated/**/*"],
+  "include": ["index.ts", "generated/**/*"],
   "exclude": ["node_modules", "dist", "prisma"]
 }

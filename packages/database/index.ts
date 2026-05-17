@@ -7,13 +7,13 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
-import { PrismaClient } from "../generated/client.js";
+import { PrismaClient } from "./generated/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 
 // Re-export everything from generated client so consumers
 // can import types directly from @repo/database
-export * from "../generated/client.js";
+export * from "./generated/client.js";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
