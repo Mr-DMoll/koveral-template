@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/shared/context/AuthContext";
 import { useTheme } from "@/shared/context/ThemeContext";
 import { type NavItem } from "@/shared/config/nav.config";
+import { NAV_CONFIG } from "@/shared/config/nav.config";
+
+
 import {
   LayoutDashboard, FolderKanban, Users, UserCircle,
   FileText, Receipt, UsersRound, Activity, ScrollText,
@@ -23,10 +26,14 @@ interface Props {
   role: string;
 }
 
-export default function SidebarClient({ navItems, role }: Props) {
+export default function SidebarClient() {
   const [isHovered, setIsHovered] = useState(false);
   const pathname  = usePathname();
   const { logout, user } = useAuth();
+
+  const role     = (user?.role ?? "") as keyof typeof NAV_CONFIG;
+  const navItems = NAV_CONFIG[role] ?? [];
+
   const { theme, toggle } = useTheme();
 
   const displayName =
