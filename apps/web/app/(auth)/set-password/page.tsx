@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import SetPasswordPage from "@/features/auth/pages/SetPasswordPage";
 
-export default function SetPasswordRoute() {
+export default function Page() {
   return (
-    <Suspense fallback={<div className="text-slate-400 text-sm">Loading...</div>}>
+    <Suspense>
       <SetPasswordPage />
     </Suspense>
   );
