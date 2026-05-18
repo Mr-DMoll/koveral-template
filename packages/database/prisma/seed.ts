@@ -12,55 +12,46 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
+
+
 async function main() {
-  if (!process.env.DATABASE_URL) {
-    throw new Error("❌ DATABASE_URL missing from .env");
-  }
+  console.log("🌱 Seeding database...");
 
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-  const adapter = new PrismaPg(pool);
-  const prisma = new PrismaClient({ adapter } as any);
+  // Create default system settings
+  await prisma.systemSetting.upsert({
+    where:  { key: "registration_mode" },
+    update: {},
+    create: { key: "registration_mode", value: "INVITE_ONLY" },
+  });
 
-  try {
-    console.log("🌱 Starting Seeding...");
+  await prisma.systemSetting.upsert({
+    where:  { key: "app_name" },
+    update: {},
+    create: { key: "app_name", value: "My App" },
+  });
 
-    const email = "owner@obit.com";
-    const rawPassword = process.env.INITIAL_SUPERADMIN_PASSWORD;
+  // Create super admin
+  const password = await bcrypt.hash("SuperAdmin123!", 12);
 
-    if (!rawPassword) {
-      throw new Error("❌ INITIAL_SUPERADMIN_PASSWORD missing from .env");
-    }
+  const superAdmin = await prisma.user.upsert({
+    where:  { email: "superadmin@example.com" },
+    update: {},
+    create: {
+      email:         "superadmin@example.com",
+      password,
+      role:          "SUPER_ADMIN",
+      accountStatus: "ACTIVE",
+      firstName:     "Super",
+      lastName:      "Admin",
+      displayName:   "Super Admin",
+    },
+  });
 
-    console.log(`🔑 Hashing password for: ${email}`);
-    const hashedPassword = await hash(rawPassword, 12);
-
-    // Simple upsert with minimal fields first
-    const superAdmin = await prisma.user.upsert({
-      where: { email },
-      update: {
-        password: hashedPassword,
-        role: "SUPER_ADMIN",
-        accountStatus: "ACTIVE",
-      },
-      create: {
-        email,
-        password: hashedPassword,
-        role: "SUPER_ADMIN",
-        accountStatus: "ACTIVE",
-        firstName: "Katlego",
-        lastName: "Admin",
-      },
-    });
-
-    console.log("✅ Super Admin synchronized:", superAdmin.email);
-    console.log("✅ Seeding complete.");
-  } catch (error: any) {
-    console.error("❌ Seed Error:", error.message);
-    process.exit(1);
-  } finally {
-    await prisma.$disconnect();
-    await pool.end();
-  }
+  console.log(`✅ Super admin: ${superAdmin.email}`);
+  console.log(`   Password: SuperAdmin123!`);
+  console.log(`\n⚠️  Change this password immediately after first login!`);
 }
 
-main();
+main()
+  .catch(console.error)
+  .finally(() => prisma.$disconnect());

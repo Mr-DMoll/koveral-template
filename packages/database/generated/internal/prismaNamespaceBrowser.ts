@@ -52,21 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  OtpCode: 'OtpCode',
   AuditLog: 'AuditLog',
-  IntakeForm: 'IntakeForm',
-  Project: 'Project',
-  ProjectMember: 'ProjectMember',
-  Milestone: 'Milestone',
-  Task: 'Task',
-  Document: 'Document',
-  DesignVersion: 'DesignVersion',
-  DesignComment: 'DesignComment',
-  Contract: 'Contract',
-  Invoice: 'Invoice',
-  ChangeRequest: 'ChangeRequest',
-  Comment: 'Comment',
-  Notification: 'Notification'
+  SystemSetting: 'SystemSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -91,17 +78,17 @@ export const UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   accountStatus: 'accountStatus',
-  isEmailVerified: 'isEmailVerified',
   firstName: 'firstName',
   lastName: 'lastName',
   displayName: 'displayName',
   avatarUrl: 'avatarUrl',
-  language: 'language',
-  city: 'city',
-  country: 'country',
-  dateOfBirth: 'dateOfBirth',
-  profileCompletedAt: 'profileCompletedAt',
+  phone: 'phone',
+  verificationCode: 'verificationCode',
+  verificationExpires: 'verificationExpires',
+  passwordResetToken: 'passwordResetToken',
+  passwordResetExpires: 'passwordResetExpires',
   lastActiveAt: 'lastActiveAt',
+  invitedById: 'invitedById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -109,25 +96,12 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const OtpCodeScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  target: 'target',
-  type: 'type',
-  expiresAt: 'expiresAt',
-  userId: 'userId',
-  createdAt: 'createdAt'
-} as const
-
-export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
-
-
 export const AuditLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   action: 'action',
   meta: 'meta',
-  ipAddress: 'ipAddress',
+  ip: 'ip',
   userAgent: 'userAgent',
   createdAt: 'createdAt'
 } as const
@@ -135,234 +109,15 @@ export const AuditLogScalarFieldEnum = {
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
-export const IntakeFormScalarFieldEnum = {
+export const SystemSettingScalarFieldEnum = {
   id: 'id',
-  clientName: 'clientName',
-  clientEmail: 'clientEmail',
-  clientPhone: 'clientPhone',
-  companyName: 'companyName',
-  projectName: 'projectName',
-  projectType: 'projectType',
-  description: 'description',
-  budgetRange: 'budgetRange',
-  preferredTimeline: 'preferredTimeline',
-  referenceLinks: 'referenceLinks',
-  isConverted: 'isConverted',
-  projectId: 'projectId',
+  key: 'key',
+  value: 'value',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type IntakeFormScalarFieldEnum = (typeof IntakeFormScalarFieldEnum)[keyof typeof IntakeFormScalarFieldEnum]
-
-
-export const ProjectScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  status: 'status',
-  budget: 'budget',
-  spent: 'spent',
-  currency: 'currency',
-  startDate: 'startDate',
-  deadline: 'deadline',
-  completedAt: 'completedAt',
-  repositoryUrl: 'repositoryUrl',
-  liveSiteUrl: 'liveSiteUrl',
-  figmaUrl: 'figmaUrl',
-  managerId: 'managerId',
-  clientId: 'clientId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
-
-
-export const ProjectMemberScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  userId: 'userId',
-  role: 'role',
-  joinedAt: 'joinedAt'
-} as const
-
-export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
-
-
-export const MilestoneScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  title: 'title',
-  description: 'description',
-  status: 'status',
-  agreedAmount: 'agreedAmount',
-  dueDate: 'dueDate',
-  completedAt: 'completedAt',
-  approvedById: 'approvedById',
-  approvedAt: 'approvedAt',
-  deliverables: 'deliverables',
-  order: 'order',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MilestoneScalarFieldEnum = (typeof MilestoneScalarFieldEnum)[keyof typeof MilestoneScalarFieldEnum]
-
-
-export const TaskScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  milestoneId: 'milestoneId',
-  title: 'title',
-  description: 'description',
-  status: 'status',
-  priority: 'priority',
-  assigneeId: 'assigneeId',
-  createdById: 'createdById',
-  dueDate: 'dueDate',
-  completedAt: 'completedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
-
-
-export const DocumentScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  type: 'type',
-  title: 'title',
-  content: 'content',
-  fileUrl: 'fileUrl',
-  fileSize: 'fileSize',
-  mimeType: 'mimeType',
-  uploadedById: 'uploadedById',
-  version: 'version',
-  isLatest: 'isLatest',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
-
-
-export const DesignVersionScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  versionNum: 'versionNum',
-  figmaUrl: 'figmaUrl',
-  fileUrl: 'fileUrl',
-  status: 'status',
-  uploadedById: 'uploadedById',
-  approvedById: 'approvedById',
-  approvedAt: 'approvedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DesignVersionScalarFieldEnum = (typeof DesignVersionScalarFieldEnum)[keyof typeof DesignVersionScalarFieldEnum]
-
-
-export const DesignCommentScalarFieldEnum = {
-  id: 'id',
-  designVersionId: 'designVersionId',
-  authorId: 'authorId',
-  content: 'content',
-  screenRef: 'screenRef',
-  isResolved: 'isResolved',
-  resolvedAt: 'resolvedAt',
-  createdAt: 'createdAt'
-} as const
-
-export type DesignCommentScalarFieldEnum = (typeof DesignCommentScalarFieldEnum)[keyof typeof DesignCommentScalarFieldEnum]
-
-
-export const ContractScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  content: 'content',
-  paymentTerms: 'paymentTerms',
-  revisionLimit: 'revisionLimit',
-  signedByClient: 'signedByClient',
-  signedByAgency: 'signedByAgency',
-  clientSignedAt: 'clientSignedAt',
-  agencySignedAt: 'agencySignedAt',
-  approvedDesignVersionId: 'approvedDesignVersionId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ContractScalarFieldEnum = (typeof ContractScalarFieldEnum)[keyof typeof ContractScalarFieldEnum]
-
-
-export const InvoiceScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  milestoneId: 'milestoneId',
-  invoiceNumber: 'invoiceNumber',
-  amount: 'amount',
-  currency: 'currency',
-  status: 'status',
-  isDeposit: 'isDeposit',
-  description: 'description',
-  dueDate: 'dueDate',
-  sentAt: 'sentAt',
-  paidAt: 'paidAt',
-  stripePaymentIntentId: 'stripePaymentIntentId',
-  stripeInvoiceId: 'stripeInvoiceId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
-
-
-export const ChangeRequestScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  type: 'type',
-  description: 'description',
-  price: 'price',
-  status: 'status',
-  requestedById: 'requestedById',
-  approvedById: 'approvedById',
-  approvedAt: 'approvedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ChangeRequestScalarFieldEnum = (typeof ChangeRequestScalarFieldEnum)[keyof typeof ChangeRequestScalarFieldEnum]
-
-
-export const CommentScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  documentId: 'documentId',
-  authorId: 'authorId',
-  content: 'content',
-  isInternal: 'isInternal',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
-
-
-export const NotificationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  projectId: 'projectId',
-  title: 'title',
-  message: 'message',
-  type: 'type',
-  isRead: 'isRead',
-  readAt: 'readAt',
-  createdAt: 'createdAt'
-} as const
-
-export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
 
 
 export const SortOrder = {

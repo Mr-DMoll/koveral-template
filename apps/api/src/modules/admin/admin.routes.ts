@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adminDashboard, adminActivity, adminClients, adminInvoices } from "./admin.controller.js";
+import { adminDashboard, listUsers, inviteUser, updateUserStatus } from "./admin.controller.js";
 import { protect }   from "../../middleware/auth.middleware.js";
 import { authorize } from "../../middleware/role.middleware.js";
 import { Role }      from "@repo/types";
@@ -13,7 +13,7 @@ router.use(authorize([Role.ADMIN, Role.SUPER_ADMIN]));
  * /api/v1/admin/dashboard:
  *   get:
  *     tags: [Admin]
- *     summary: Agency-wide dashboard stats
+ *     summary: Admin dashboard stats
  *     security:
  *       - cookieAuth: []
  */
@@ -21,57 +21,40 @@ router.get("/dashboard", adminDashboard);
 
 /**
  * @openapi
- * /api/v1/admin/activity:
+ * /api/v1/admin/users:
  *   get:
  *     tags: [Admin]
- *     summary: Full audit log (paginated, filterable)
+ *     summary: List all users
  *     security:
  *       - cookieAuth: []
- *     parameters:
- *       - in: query
- *         name: page
- *         schema: { type: integer }
- *       - in: query
- *         name: userId
- *         schema: { type: string }
- *       - in: query
- *         name: action
- *         schema: { type: string }
  */
-router.get("/activity", adminActivity);
+router.get("/users", listUsers);
 
 /**
  * @openapi
- * /api/v1/admin/clients:
- *   get:
+ * /api/v1/admin/users/invite:
+ *   post:
  *     tags: [Admin]
- *     summary: All clients with their projects
+ *     summary: Invite a new user
  *     security:
  *       - cookieAuth: []
  */
-router.get("/clients", adminClients);
+router.post("/users/invite", inviteUser);
 
 /**
  * @openapi
- * /api/v1/admin/invoices:
- *   get:
+ * /api/v1/admin/users/{id}/status:
+ *   patch:
  *     tags: [Admin]
- *     summary: All invoices across all projects (paginated)
+ *     summary: Update user account status
  *     security:
  *       - cookieAuth: []
  *     parameters:
- *       - in: query
- *         name: status
- *         schema:
- *           type: string
- *           enum: [DRAFT, SENT, PAID, OVERDUE, CANCELLED]
- *       - in: query
- *         name: projectId
+ *       - in: path
+ *         name: id
+ *         required: true
  *         schema: { type: string }
- *       - in: query
- *         name: page
- *         schema: { type: integer }
  */
-router.get("/invoices", adminInvoices);
+router.patch("/users/:id/status", updateUserStatus);
 
 export default router;

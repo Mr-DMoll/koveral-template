@@ -47,77 +47,12 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model OtpCode
- * 
- */
-export type OtpCode = Prisma.OtpCodeModel
-/**
  * Model AuditLog
  * 
  */
 export type AuditLog = Prisma.AuditLogModel
 /**
- * Model IntakeForm
+ * Model SystemSetting
  * 
  */
-export type IntakeForm = Prisma.IntakeFormModel
-/**
- * Model Project
- * 
- */
-export type Project = Prisma.ProjectModel
-/**
- * Model ProjectMember
- * 
- */
-export type ProjectMember = Prisma.ProjectMemberModel
-/**
- * Model Milestone
- * 
- */
-export type Milestone = Prisma.MilestoneModel
-/**
- * Model Task
- * 
- */
-export type Task = Prisma.TaskModel
-/**
- * Model Document
- * 
- */
-export type Document = Prisma.DocumentModel
-/**
- * Model DesignVersion
- * 
- */
-export type DesignVersion = Prisma.DesignVersionModel
-/**
- * Model DesignComment
- * 
- */
-export type DesignComment = Prisma.DesignCommentModel
-/**
- * Model Contract
- * 
- */
-export type Contract = Prisma.ContractModel
-/**
- * Model Invoice
- * 
- */
-export type Invoice = Prisma.InvoiceModel
-/**
- * Model ChangeRequest
- * 
- */
-export type ChangeRequest = Prisma.ChangeRequestModel
-/**
- * Model Comment
- * 
- */
-export type Comment = Prisma.CommentModel
-/**
- * Model Notification
- * 
- */
-export type Notification = Prisma.NotificationModel
+export type SystemSetting = Prisma.SystemSettingModel

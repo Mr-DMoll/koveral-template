@@ -1,47 +1,95 @@
 "use client";
 
-import { StatCard, ActivityItem, HealthMetric, SectionCard } from "@/shared/components/ui/DashboardComponents";
+import { useEffect, useState } from "react";
+import { Users, UserCheck, Clock, Shield } from "lucide-react";
+import apiClient from "@/api/client";
 
-export function SuperAdminOverviewPage() {
+interface Stats {
+  totalUsers:     number;
+  totalAdmins:    number;
+  pendingUsers:   number;
+  recentActivity: any[];
+}
+
+export default function SuperAdminOverview() {
+  const [stats, setStats]   = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    apiClient.get("/super-admin/stats")
+      .then((r) => setStats(r.data?.data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  const cards = [
+    { label: "Total Users",   value: stats?.totalUsers   ?? 0, icon: <Users size={20} />,     color: "#6366f1" },
+    { label: "Admins",        value: stats?.totalAdmins  ?? 0, icon: <Shield size={20} />,    color: "#84cc16" },
+    { label: "Pending",       value: stats?.pendingUsers ?? 0, icon: <Clock size={20} />,     color: "#f59e0b" },
+  ];
+
+  if (loading) return (
+    <div style={{ padding: "40px", color: "var(--color-text-muted)", textAlign: "center" }}>
+      Loading...
+    </div>
+  );
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      {/* Header */}
-      <div>
-        <h1 style={{ fontSize: "22px", fontWeight: 600, color: "var(--color-text-primary)" }}>
-          Platform Overview
-        </h1>
-        <p style={{ fontSize: "13px", color: "var(--color-text-muted)", marginTop: "4px" }}>
-          System status and platform health
-        </p>
-      </div>
+    <div style={{ padding: "32px", maxWidth: "1200px" }}>
+      <h1 style={{ fontSize: "24px", fontWeight: 700, color: "var(--color-text-primary)", marginBottom: "8px" }}>
+        Platform Overview
+      </h1>
+      <p style={{ color: "var(--color-text-muted)", marginBottom: "32px" }}>
+        Super Admin Dashboard
+      </p>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "16px" }}>
-        <StatCard title="Total Admins"    value="3"    color="from-blue-500 to-cyan-400"     sub="2 active" />
-        <StatCard title="Total Users"     value="24"   color="from-green-500 to-emerald-400" sub="Across all roles" />
-        <StatCard title="Active Projects" value="8"    color="from-purple-500 to-pink-500"   sub="In progress" />
-        <StatCard title="Uptime"          value="99.9%" color="from-lime-500 to-green-400"   sub="Last 30 days" />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", marginBottom: "40px" }}>
+        {cards.map((card) => (
+          <div key={card.label} style={{
+            background: "var(--color-card-bg)",
+            border: "1px solid var(--color-card-border)",
+            borderRadius: "12px", padding: "24px",
+          }}>
+            <div style={{ color: card.color, marginBottom: "12px" }}>{card.icon}</div>
+            <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--color-text-primary)", marginBottom: "4px" }}>
+              {card.value}
+            </div>
+            <div style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>{card.label}</div>
+          </div>
+        ))}
       </div>
 
-      {/* Content */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-        <SectionCard title="Recent Activity">
-          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            <ActivityItem text="Admin account provisioned: k.katlego@gmail.com"  time="2 hours ago" />
-            <ActivityItem text="Manager added to platform"                        time="5 hours ago" />
-            <ActivityItem text="New developer onboarded"                          time="1 day ago"   />
-            <ActivityItem text="System backup completed successfully"             time="2 days ago"  />
+      {/* Recent activity */}
+      <div style={{
+        background: "var(--color-card-bg)",
+        border: "1px solid var(--color-card-border)",
+        borderRadius: "12px", padding: "24px",
+      }}>
+        <h2 style={{ fontSize: "16px", fontWeight: 600, color: "var(--color-text-primary)", marginBottom: "16px" }}>
+          Recent Activity
+        </h2>
+        {stats?.recentActivity.length === 0 ? (
+          <p style={{ color: "var(--color-text-muted)", fontSize: "14px" }}>No activity yet.</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {stats?.recentActivity.map((log: any) => (
+              <div key={log.id} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "10px 12px", borderRadius: "8px",
+                background: "var(--color-bg-subtle)",
+                fontSize: "13px",
+              }}>
+                <span style={{ color: "var(--color-text-primary)" }}>
+                  {log.user?.displayName ?? log.user?.email} — {log.action}
+                </span>
+                <span style={{ color: "var(--color-text-muted)" }}>
+                  {new Date(log.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            ))}
           </div>
-        </SectionCard>
-
-        <SectionCard title="System Health">
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <HealthMetric label="Database"       status="Operational" percentage={98}  />
-            <HealthMetric label="API Services"   status="Operational" percentage={100} />
-            <HealthMetric label="Storage"        status="Warning"     percentage={85}  />
-            <HealthMetric label="Backup Systems" status="Operational" percentage={100} />
-          </div>
-        </SectionCard>
+        )}
       </div>
     </div>
   );

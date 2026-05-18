@@ -34,7 +34,7 @@ export class AuthService {
       data: {
         email:         data.email.trim().toLowerCase(),
         password:      hashed,
-        role:          data.role ?? Role.CLIENT,
+        role:          data.role ?? Role.USER,
         accountStatus: "PENDING",
       },
     });

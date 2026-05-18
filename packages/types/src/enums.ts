@@ -1,11 +1,9 @@
 export enum Role {
   SUPER_ADMIN = "SUPER_ADMIN",
   ADMIN       = "ADMIN",
-  MANAGER     = "MANAGER",
-  DEVELOPER   = "DEVELOPER",
-  CLIENT      = "CLIENT",
+  USER        = "USER",
 }
-
+8778
 export enum AccountStatus {
   PENDING   = "PENDING",
   ACTIVE    = "ACTIVE",
@@ -13,7 +11,8 @@ export enum AccountStatus {
   DELETED   = "DELETED",
 }
 
-export enum OtpType {
-  EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
-  PASSWORD_RESET     = "PASSWORD_RESET",
+export enum RegistrationMode {
+  INVITE_ONLY         = "INVITE_ONLY",
+  SELF_REGISTER       = "SELF_REGISTER",
+  SELF_REGISTER_AUTO  = "SELF_REGISTER_AUTO",
 }

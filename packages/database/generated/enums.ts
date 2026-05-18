@@ -12,9 +12,7 @@
 export const Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
-  MANAGER: 'MANAGER',
-  DEVELOPER: 'DEVELOPER',
-  CLIENT: 'CLIENT'
+  USER: 'USER'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -30,101 +28,10 @@ export const AccountStatus = {
 export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]
 
 
-export const OtpType = {
-  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
-  PASSWORD_RESET: 'PASSWORD_RESET'
+export const RegistrationMode = {
+  INVITE_ONLY: 'INVITE_ONLY',
+  SELF_REGISTER: 'SELF_REGISTER',
+  SELF_REGISTER_AUTO: 'SELF_REGISTER_AUTO'
 } as const
 
-export type OtpType = (typeof OtpType)[keyof typeof OtpType]
-
-
-export const ProjectStatus = {
-  INTAKE: 'INTAKE',
-  SCOPE_DRAFT: 'SCOPE_DRAFT',
-  SCOPE_REVIEW: 'SCOPE_REVIEW',
-  IN_DESIGN: 'IN_DESIGN',
-  DESIGN_REVIEW: 'DESIGN_REVIEW',
-  CONTRACT_DRAFT: 'CONTRACT_DRAFT',
-  CONTRACT_REVIEW: 'CONTRACT_REVIEW',
-  ACTIVE: 'ACTIVE',
-  ON_HOLD: 'ON_HOLD',
-  COMPLETE: 'COMPLETE',
-  ARCHIVED: 'ARCHIVED'
-} as const
-
-export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus]
-
-
-export const MilestoneStatus = {
-  PENDING: 'PENDING',
-  IN_PROGRESS: 'IN_PROGRESS',
-  SUBMITTED: 'SUBMITTED',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
-} as const
-
-export type MilestoneStatus = (typeof MilestoneStatus)[keyof typeof MilestoneStatus]
-
-
-export const TaskStatus = {
-  BACKLOG: 'BACKLOG',
-  TODO: 'TODO',
-  IN_PROGRESS: 'IN_PROGRESS',
-  REVIEW: 'REVIEW',
-  DONE: 'DONE'
-} as const
-
-export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]
-
-
-export const TaskPriority = {
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-  CRITICAL: 'CRITICAL'
-} as const
-
-export type TaskPriority = (typeof TaskPriority)[keyof typeof TaskPriority]
-
-
-export const DocumentType = {
-  SCOPE: 'SCOPE',
-  CONTRACT: 'CONTRACT',
-  SPECIFICATION: 'SPECIFICATION',
-  DESIGN_BRIEF: 'DESIGN_BRIEF',
-  HANDOVER: 'HANDOVER',
-  OTHER: 'OTHER'
-} as const
-
-export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
-
-
-export const InvoiceStatus = {
-  DRAFT: 'DRAFT',
-  SENT: 'SENT',
-  PAID: 'PAID',
-  OVERDUE: 'OVERDUE',
-  CANCELLED: 'CANCELLED'
-} as const
-
-export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
-
-
-export const DesignVersionStatus = {
-  PENDING_REVIEW: 'PENDING_REVIEW',
-  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
-  APPROVED: 'APPROVED',
-  LOCKED: 'LOCKED'
-} as const
-
-export type DesignVersionStatus = (typeof DesignVersionStatus)[keyof typeof DesignVersionStatus]
-
-
-export const ChangeRequestStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  PAID: 'PAID'
-} as const
-
-export type ChangeRequestStatus = (typeof ChangeRequestStatus)[keyof typeof ChangeRequestStatus]
+export type RegistrationMode = (typeof RegistrationMode)[keyof typeof RegistrationMode]

@@ -1,11 +1,16 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated"
+  provider        = "prisma-client-js"
+  output          = "../generated"
+  previewFeatures = ["queryRawTyped", "driverAdapters"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
+
+// ── Enums ──────────────────────────────────────────────────────────────────────
 
 enum Role {
   SUPER_ADMIN
@@ -26,6 +31,8 @@ enum RegistrationMode {
   SELF_REGISTER_AUTO
 }
 
+// ── Models ─────────────────────────────────────────────────────────────────────
+
 model User {
   id            String        @id @default(cuid())
   email         String        @unique
@@ -33,21 +40,25 @@ model User {
   role          Role          @default(USER)
   accountStatus AccountStatus @default(PENDING)
 
-  firstName            String?
-  lastName             String?
-  displayName          String?
-  avatarUrl            String?
-  phone                String?
-  verificationCode     String?
-  verificationExpires  DateTime?
-  passwordResetToken   String?
-  passwordResetExpires DateTime?
-  lastActiveAt         DateTime?
+  firstName   String?
+  lastName    String?
+  displayName String?
+  avatarUrl   String?
+  phone       String?
 
+  // Auth
+  verificationCode    String?
+  verificationExpires DateTime?
+  passwordResetToken  String?
+  passwordResetExpires DateTime?
+  lastActiveAt        DateTime?
+
+  // Invite
   invitedById String?
   invitedBy   User?   @relation("UserInvites", fields: [invitedById], references: [id])
   invitees    User[]  @relation("UserInvites")
-  auditLogs   AuditLog[]
+
+  auditLogs AuditLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,9 +82,10 @@ model AuditLog {
 }
 
 model SystemSetting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

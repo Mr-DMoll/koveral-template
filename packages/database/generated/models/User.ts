@@ -30,17 +30,17 @@ export type UserMinAggregateOutputType = {
   password: string | null
   role: $Enums.Role | null
   accountStatus: $Enums.AccountStatus | null
-  isEmailVerified: boolean | null
   firstName: string | null
   lastName: string | null
   displayName: string | null
   avatarUrl: string | null
-  language: string | null
-  city: string | null
-  country: string | null
-  dateOfBirth: Date | null
-  profileCompletedAt: Date | null
+  phone: string | null
+  verificationCode: string | null
+  verificationExpires: Date | null
+  passwordResetToken: string | null
+  passwordResetExpires: Date | null
   lastActiveAt: Date | null
+  invitedById: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -51,17 +51,17 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   role: $Enums.Role | null
   accountStatus: $Enums.AccountStatus | null
-  isEmailVerified: boolean | null
   firstName: string | null
   lastName: string | null
   displayName: string | null
   avatarUrl: string | null
-  language: string | null
-  city: string | null
-  country: string | null
-  dateOfBirth: Date | null
-  profileCompletedAt: Date | null
+  phone: string | null
+  verificationCode: string | null
+  verificationExpires: Date | null
+  passwordResetToken: string | null
+  passwordResetExpires: Date | null
   lastActiveAt: Date | null
+  invitedById: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,17 +72,17 @@ export type UserCountAggregateOutputType = {
   password: number
   role: number
   accountStatus: number
-  isEmailVerified: number
   firstName: number
   lastName: number
   displayName: number
   avatarUrl: number
-  language: number
-  city: number
-  country: number
-  dateOfBirth: number
-  profileCompletedAt: number
+  phone: number
+  verificationCode: number
+  verificationExpires: number
+  passwordResetToken: number
+  passwordResetExpires: number
   lastActiveAt: number
+  invitedById: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -95,17 +95,17 @@ export type UserMinAggregateInputType = {
   password?: true
   role?: true
   accountStatus?: true
-  isEmailVerified?: true
   firstName?: true
   lastName?: true
   displayName?: true
   avatarUrl?: true
-  language?: true
-  city?: true
-  country?: true
-  dateOfBirth?: true
-  profileCompletedAt?: true
+  phone?: true
+  verificationCode?: true
+  verificationExpires?: true
+  passwordResetToken?: true
+  passwordResetExpires?: true
   lastActiveAt?: true
+  invitedById?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -116,17 +116,17 @@ export type UserMaxAggregateInputType = {
   password?: true
   role?: true
   accountStatus?: true
-  isEmailVerified?: true
   firstName?: true
   lastName?: true
   displayName?: true
   avatarUrl?: true
-  language?: true
-  city?: true
-  country?: true
-  dateOfBirth?: true
-  profileCompletedAt?: true
+  phone?: true
+  verificationCode?: true
+  verificationExpires?: true
+  passwordResetToken?: true
+  passwordResetExpires?: true
   lastActiveAt?: true
+  invitedById?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -137,17 +137,17 @@ export type UserCountAggregateInputType = {
   password?: true
   role?: true
   accountStatus?: true
-  isEmailVerified?: true
   firstName?: true
   lastName?: true
   displayName?: true
   avatarUrl?: true
-  language?: true
-  city?: true
-  country?: true
-  dateOfBirth?: true
-  profileCompletedAt?: true
+  phone?: true
+  verificationCode?: true
+  verificationExpires?: true
+  passwordResetToken?: true
+  passwordResetExpires?: true
   lastActiveAt?: true
+  invitedById?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -227,21 +227,21 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: string
-  email: string | null
+  email: string
   password: string
   role: $Enums.Role
   accountStatus: $Enums.AccountStatus
-  isEmailVerified: boolean
   firstName: string | null
   lastName: string | null
   displayName: string | null
   avatarUrl: string | null
-  language: string | null
-  city: string | null
-  country: string | null
-  dateOfBirth: Date | null
-  profileCompletedAt: Date | null
+  phone: string | null
+  verificationCode: string | null
+  verificationExpires: Date | null
+  passwordResetToken: string | null
+  passwordResetExpires: Date | null
   lastActiveAt: Date | null
+  invitedById: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -269,66 +269,50 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
-  email?: Prisma.StringNullableFilter<"User"> | string | null
+  email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
   firstName?: Prisma.StringNullableFilter<"User"> | string | null
   lastName?: Prisma.StringNullableFilter<"User"> | string | null
   displayName?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  language?: Prisma.StringNullableFilter<"User"> | string | null
-  city?: Prisma.StringNullableFilter<"User"> | string | null
-  country?: Prisma.StringNullableFilter<"User"> | string | null
-  dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  profileCompletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationCode?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  passwordResetToken?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordResetExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  invitedById?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  otpCodes?: Prisma.OtpCodeListRelationFilter
+  invitedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  invitees?: Prisma.UserListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
-  managedProjects?: Prisma.ProjectListRelationFilter
-  clientProjects?: Prisma.ProjectListRelationFilter
-  projectMembers?: Prisma.ProjectMemberListRelationFilter
-  assignedTasks?: Prisma.TaskListRelationFilter
-  createdTasks?: Prisma.TaskListRelationFilter
-  uploadedDocuments?: Prisma.DocumentListRelationFilter
-  comments?: Prisma.CommentListRelationFilter
-  designComments?: Prisma.DesignCommentListRelationFilter
-  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   accountStatus?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
   firstName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  language?: Prisma.SortOrderInput | Prisma.SortOrder
-  city?: Prisma.SortOrderInput | Prisma.SortOrder
-  country?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
-  profileCompletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordResetToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordResetExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  invitedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  otpCodes?: Prisma.OtpCodeOrderByRelationAggregateInput
+  invitedBy?: Prisma.UserOrderByWithRelationInput
+  invitees?: Prisma.UserOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
-  managedProjects?: Prisma.ProjectOrderByRelationAggregateInput
-  clientProjects?: Prisma.ProjectOrderByRelationAggregateInput
-  projectMembers?: Prisma.ProjectMemberOrderByRelationAggregateInput
-  assignedTasks?: Prisma.TaskOrderByRelationAggregateInput
-  createdTasks?: Prisma.TaskOrderByRelationAggregateInput
-  uploadedDocuments?: Prisma.DocumentOrderByRelationAggregateInput
-  comments?: Prisma.CommentOrderByRelationAggregateInput
-  designComments?: Prisma.DesignCommentOrderByRelationAggregateInput
-  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -340,49 +324,41 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
   firstName?: Prisma.StringNullableFilter<"User"> | string | null
   lastName?: Prisma.StringNullableFilter<"User"> | string | null
   displayName?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
-  language?: Prisma.StringNullableFilter<"User"> | string | null
-  city?: Prisma.StringNullableFilter<"User"> | string | null
-  country?: Prisma.StringNullableFilter<"User"> | string | null
-  dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  profileCompletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationCode?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  passwordResetToken?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordResetExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  invitedById?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  otpCodes?: Prisma.OtpCodeListRelationFilter
+  invitedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  invitees?: Prisma.UserListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
-  managedProjects?: Prisma.ProjectListRelationFilter
-  clientProjects?: Prisma.ProjectListRelationFilter
-  projectMembers?: Prisma.ProjectMemberListRelationFilter
-  assignedTasks?: Prisma.TaskListRelationFilter
-  createdTasks?: Prisma.TaskListRelationFilter
-  uploadedDocuments?: Prisma.DocumentListRelationFilter
-  comments?: Prisma.CommentListRelationFilter
-  designComments?: Prisma.DesignCommentListRelationFilter
-  notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   accountStatus?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
   firstName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   displayName?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  language?: Prisma.SortOrderInput | Prisma.SortOrder
-  city?: Prisma.SortOrderInput | Prisma.SortOrder
-  country?: Prisma.SortOrderInput | Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
-  profileCompletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordResetToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordResetExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  invitedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -395,190 +371,153 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusWithAggregatesFilter<"User"> | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   firstName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   lastName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   displayName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  language?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  profileCompletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verificationCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  passwordResetToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  passwordResetExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  invitedById?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
+  invitedBy?: Prisma.UserCreateNestedOneWithoutInviteesInput
+  invitees?: Prisma.UserCreateNestedManyWithoutInvitedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
+  invitedById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
+  invitees?: Prisma.UserUncheckedCreateNestedManyWithoutInvitedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
+  invitedBy?: Prisma.UserUpdateOneWithoutInviteesNestedInput
+  invitees?: Prisma.UserUpdateManyWithoutInvitedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invitedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
+  invitees?: Prisma.UserUncheckedUpdateManyWithoutInvitedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
+  invitedById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -586,23 +525,38 @@ export type UserUpdateManyMutationInput = {
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invitedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -611,17 +565,17 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   accountStatus?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
-  language?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
-  profileCompletedAt?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrder
+  passwordResetToken?: Prisma.SortOrder
+  passwordResetExpires?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
+  invitedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -632,17 +586,17 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   accountStatus?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
-  language?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
-  profileCompletedAt?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrder
+  passwordResetToken?: Prisma.SortOrder
+  passwordResetExpires?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
+  invitedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -653,17 +607,17 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   accountStatus?: Prisma.SortOrder
-  isEmailVerified?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
-  language?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
-  dateOfBirth?: Prisma.SortOrder
-  profileCompletedAt?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  verificationCode?: Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrder
+  passwordResetToken?: Prisma.SortOrder
+  passwordResetExpires?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
+  invitedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -673,17 +627,28 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
+export type UserCreateNestedOneWithoutInviteesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInviteesInput, Prisma.UserUncheckedCreateWithoutInviteesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInviteesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedManyWithoutInvitedByInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitedByInput, Prisma.UserUncheckedCreateWithoutInvitedByInput> | Prisma.UserCreateWithoutInvitedByInput[] | Prisma.UserUncheckedCreateWithoutInvitedByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitedByInput | Prisma.UserCreateOrConnectWithoutInvitedByInput[]
+  createMany?: Prisma.UserCreateManyInvitedByInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutInvitedByInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitedByInput, Prisma.UserUncheckedCreateWithoutInvitedByInput> | Prisma.UserCreateWithoutInvitedByInput[] | Prisma.UserUncheckedCreateWithoutInvitedByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitedByInput | Prisma.UserCreateOrConnectWithoutInvitedByInput[]
+  createMany?: Prisma.UserCreateManyInvitedByInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
 }
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type EnumRoleFieldUpdateOperationsInput = {
@@ -694,8 +659,8 @@ export type EnumAccountStatusFieldUpdateOperationsInput = {
   set?: $Enums.AccountStatus
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -706,18 +671,42 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type UserCreateNestedOneWithoutOtpCodesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOtpCodesInput
+export type UserUpdateOneWithoutInviteesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInviteesInput, Prisma.UserUncheckedCreateWithoutInviteesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInviteesInput
+  upsert?: Prisma.UserUpsertWithoutInviteesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInviteesInput, Prisma.UserUpdateWithoutInviteesInput>, Prisma.UserUncheckedUpdateWithoutInviteesInput>
 }
 
-export type UserUpdateOneRequiredWithoutOtpCodesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOtpCodesInput
-  upsert?: Prisma.UserUpsertWithoutOtpCodesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOtpCodesInput, Prisma.UserUpdateWithoutOtpCodesInput>, Prisma.UserUncheckedUpdateWithoutOtpCodesInput>
+export type UserUpdateManyWithoutInvitedByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitedByInput, Prisma.UserUncheckedCreateWithoutInvitedByInput> | Prisma.UserCreateWithoutInvitedByInput[] | Prisma.UserUncheckedCreateWithoutInvitedByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitedByInput | Prisma.UserCreateOrConnectWithoutInvitedByInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutInvitedByInput | Prisma.UserUpsertWithWhereUniqueWithoutInvitedByInput[]
+  createMany?: Prisma.UserCreateManyInvitedByInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutInvitedByInput | Prisma.UserUpdateWithWhereUniqueWithoutInvitedByInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutInvitedByInput | Prisma.UserUpdateManyWithWhereWithoutInvitedByInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutInvitedByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInvitedByInput, Prisma.UserUncheckedCreateWithoutInvitedByInput> | Prisma.UserCreateWithoutInvitedByInput[] | Prisma.UserUncheckedCreateWithoutInvitedByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvitedByInput | Prisma.UserCreateOrConnectWithoutInvitedByInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutInvitedByInput | Prisma.UserUpsertWithWhereUniqueWithoutInvitedByInput[]
+  createMany?: Prisma.UserCreateManyInvitedByInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutInvitedByInput | Prisma.UserUpdateWithWhereUniqueWithoutInvitedByInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutInvitedByInput | Prisma.UserUpdateManyWithWhereWithoutInvitedByInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
 export type UserCreateNestedOneWithoutAuditLogsInput = {
@@ -734,334 +723,246 @@ export type UserUpdateOneRequiredWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
-export type UserCreateNestedOneWithoutManagedProjectsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutManagedProjectsInput, Prisma.UserUncheckedCreateWithoutManagedProjectsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagedProjectsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutClientProjectsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutClientProjectsInput, Prisma.UserUncheckedCreateWithoutClientProjectsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientProjectsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutManagedProjectsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutManagedProjectsInput, Prisma.UserUncheckedCreateWithoutManagedProjectsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagedProjectsInput
-  upsert?: Prisma.UserUpsertWithoutManagedProjectsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutManagedProjectsInput, Prisma.UserUpdateWithoutManagedProjectsInput>, Prisma.UserUncheckedUpdateWithoutManagedProjectsInput>
-}
-
-export type UserUpdateOneRequiredWithoutClientProjectsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutClientProjectsInput, Prisma.UserUncheckedCreateWithoutClientProjectsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientProjectsInput
-  upsert?: Prisma.UserUpsertWithoutClientProjectsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClientProjectsInput, Prisma.UserUpdateWithoutClientProjectsInput>, Prisma.UserUncheckedUpdateWithoutClientProjectsInput>
-}
-
-export type UserCreateNestedOneWithoutProjectMembersInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutProjectMembersInput, Prisma.UserUncheckedCreateWithoutProjectMembersInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectMembersInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutProjectMembersNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutProjectMembersInput, Prisma.UserUncheckedCreateWithoutProjectMembersInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectMembersInput
-  upsert?: Prisma.UserUpsertWithoutProjectMembersInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProjectMembersInput, Prisma.UserUpdateWithoutProjectMembersInput>, Prisma.UserUncheckedUpdateWithoutProjectMembersInput>
-}
-
-export type UserCreateNestedOneWithoutAssignedTasksInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedTasksInput, Prisma.UserUncheckedCreateWithoutAssignedTasksInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedTasksInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutCreatedTasksInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTasksInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneWithoutAssignedTasksNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedTasksInput, Prisma.UserUncheckedCreateWithoutAssignedTasksInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedTasksInput
-  upsert?: Prisma.UserUpsertWithoutAssignedTasksInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignedTasksInput, Prisma.UserUpdateWithoutAssignedTasksInput>, Prisma.UserUncheckedUpdateWithoutAssignedTasksInput>
-}
-
-export type UserUpdateOneRequiredWithoutCreatedTasksNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTasksInput
-  upsert?: Prisma.UserUpsertWithoutCreatedTasksInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedTasksInput, Prisma.UserUpdateWithoutCreatedTasksInput>, Prisma.UserUncheckedUpdateWithoutCreatedTasksInput>
-}
-
-export type UserCreateNestedOneWithoutUploadedDocumentsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedDocumentsInput, Prisma.UserUncheckedCreateWithoutUploadedDocumentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedDocumentsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutUploadedDocumentsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedDocumentsInput, Prisma.UserUncheckedCreateWithoutUploadedDocumentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedDocumentsInput
-  upsert?: Prisma.UserUpsertWithoutUploadedDocumentsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUploadedDocumentsInput, Prisma.UserUpdateWithoutUploadedDocumentsInput>, Prisma.UserUncheckedUpdateWithoutUploadedDocumentsInput>
-}
-
-export type UserCreateNestedOneWithoutDesignCommentsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutDesignCommentsInput, Prisma.UserUncheckedCreateWithoutDesignCommentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDesignCommentsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutDesignCommentsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutDesignCommentsInput, Prisma.UserUncheckedCreateWithoutDesignCommentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDesignCommentsInput
-  upsert?: Prisma.UserUpsertWithoutDesignCommentsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDesignCommentsInput, Prisma.UserUpdateWithoutDesignCommentsInput>, Prisma.UserUncheckedUpdateWithoutDesignCommentsInput>
-}
-
-export type UserCreateNestedOneWithoutCommentsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
-  upsert?: Prisma.UserUpsertWithoutCommentsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
-}
-
-export type UserCreateNestedOneWithoutNotificationsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
-  upsert?: Prisma.UserUpsertWithoutNotificationsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
-export type UserCreateWithoutOtpCodesInput = {
+export type UserCreateWithoutInviteesInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  invitedBy?: Prisma.UserCreateNestedOneWithoutInviteesInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutOtpCodesInput = {
+export type UserUncheckedCreateWithoutInviteesInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
+  invitedById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutOtpCodesInput = {
+export type UserCreateOrConnectWithoutInviteesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInviteesInput, Prisma.UserUncheckedCreateWithoutInviteesInput>
 }
 
-export type UserUpsertWithoutOtpCodesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutOtpCodesInput, Prisma.UserUncheckedUpdateWithoutOtpCodesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
+export type UserCreateWithoutInvitedByInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  firstName?: string | null
+  lastName?: string | null
+  displayName?: string | null
+  avatarUrl?: string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  invitees?: Prisma.UserCreateNestedManyWithoutInvitedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutInvitedByInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  accountStatus?: $Enums.AccountStatus
+  firstName?: string | null
+  lastName?: string | null
+  displayName?: string | null
+  avatarUrl?: string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  invitees?: Prisma.UserUncheckedCreateNestedManyWithoutInvitedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInvitedByInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitedByInput, Prisma.UserUncheckedCreateWithoutInvitedByInput>
+}
+
+export type UserCreateManyInvitedByInputEnvelope = {
+  data: Prisma.UserCreateManyInvitedByInput | Prisma.UserCreateManyInvitedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserUpsertWithoutInviteesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInviteesInput, Prisma.UserUncheckedUpdateWithoutInviteesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInviteesInput, Prisma.UserUncheckedCreateWithoutInviteesInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutOtpCodesInput = {
+export type UserUpdateToOneWithWhereWithoutInviteesInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutOtpCodesInput, Prisma.UserUncheckedUpdateWithoutOtpCodesInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInviteesInput, Prisma.UserUncheckedUpdateWithoutInviteesInput>
 }
 
-export type UserUpdateWithoutOtpCodesInput = {
+export type UserUpdateWithoutInviteesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invitedBy?: Prisma.UserUpdateOneWithoutInviteesNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutOtpCodesInput = {
+export type UserUncheckedUpdateWithoutInviteesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invitedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithWhereUniqueWithoutInvitedByInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInvitedByInput, Prisma.UserUncheckedUpdateWithoutInvitedByInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInvitedByInput, Prisma.UserUncheckedCreateWithoutInvitedByInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutInvitedByInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInvitedByInput, Prisma.UserUncheckedUpdateWithoutInvitedByInput>
+}
+
+export type UserUpdateManyWithWhereWithoutInvitedByInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutInvitedByInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringFilter<"User"> | string
+  password?: Prisma.StringFilter<"User"> | string
+  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  accountStatus?: Prisma.EnumAccountStatusFilter<"User"> | $Enums.AccountStatus
+  firstName?: Prisma.StringNullableFilter<"User"> | string | null
+  lastName?: Prisma.StringNullableFilter<"User"> | string | null
+  displayName?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationCode?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  passwordResetToken?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordResetExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  invitedById?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
 
 export type UserCreateWithoutAuditLogsInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  invitedBy?: Prisma.UserCreateNestedOneWithoutInviteesInput
+  invitees?: Prisma.UserCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
+  invitedById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  invitees?: Prisma.UserUncheckedCreateNestedManyWithoutInvitedByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1082,1324 +983,130 @@ export type UserUpdateToOneWithWhereWithoutAuditLogsInput = {
 
 export type UserUpdateWithoutAuditLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  invitedBy?: Prisma.UserUpdateOneWithoutInviteesNestedInput
+  invitees?: Prisma.UserUpdateManyWithoutInvitedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invitedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  invitees?: Prisma.UserUncheckedUpdateManyWithoutInvitedByNestedInput
 }
 
-export type UserCreateWithoutManagedProjectsInput = {
+export type UserCreateManyInvitedByInput = {
   id?: string
-  email?: string | null
+  email: string
   password: string
   role?: $Enums.Role
   accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
   firstName?: string | null
   lastName?: string | null
   displayName?: string | null
   avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
+  phone?: string | null
+  verificationCode?: string | null
+  verificationExpires?: Date | string | null
+  passwordResetToken?: string | null
+  passwordResetExpires?: Date | string | null
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutManagedProjectsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutManagedProjectsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutManagedProjectsInput, Prisma.UserUncheckedCreateWithoutManagedProjectsInput>
-}
-
-export type UserCreateWithoutClientProjectsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutClientProjectsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutClientProjectsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutClientProjectsInput, Prisma.UserUncheckedCreateWithoutClientProjectsInput>
-}
-
-export type UserUpsertWithoutManagedProjectsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutManagedProjectsInput, Prisma.UserUncheckedUpdateWithoutManagedProjectsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutManagedProjectsInput, Prisma.UserUncheckedCreateWithoutManagedProjectsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutManagedProjectsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutManagedProjectsInput, Prisma.UserUncheckedUpdateWithoutManagedProjectsInput>
-}
-
-export type UserUpdateWithoutManagedProjectsInput = {
+export type UserUpdateWithoutInvitedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
+  invitees?: Prisma.UserUpdateManyWithoutInvitedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutManagedProjectsInput = {
+export type UserUncheckedUpdateWithoutInvitedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
+  invitees?: Prisma.UserUncheckedUpdateManyWithoutInvitedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserUpsertWithoutClientProjectsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutClientProjectsInput, Prisma.UserUncheckedUpdateWithoutClientProjectsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutClientProjectsInput, Prisma.UserUncheckedCreateWithoutClientProjectsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutClientProjectsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutClientProjectsInput, Prisma.UserUncheckedUpdateWithoutClientProjectsInput>
-}
-
-export type UserUpdateWithoutClientProjectsInput = {
+export type UserUncheckedUpdateManyWithoutInvitedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordResetToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordResetExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutClientProjectsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutProjectMembersInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutProjectMembersInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutProjectMembersInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutProjectMembersInput, Prisma.UserUncheckedCreateWithoutProjectMembersInput>
-}
-
-export type UserUpsertWithoutProjectMembersInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutProjectMembersInput, Prisma.UserUncheckedUpdateWithoutProjectMembersInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutProjectMembersInput, Prisma.UserUncheckedCreateWithoutProjectMembersInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutProjectMembersInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutProjectMembersInput, Prisma.UserUncheckedUpdateWithoutProjectMembersInput>
-}
-
-export type UserUpdateWithoutProjectMembersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutProjectMembersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutAssignedTasksInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutAssignedTasksInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutAssignedTasksInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedTasksInput, Prisma.UserUncheckedCreateWithoutAssignedTasksInput>
-}
-
-export type UserCreateWithoutCreatedTasksInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCreatedTasksInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCreatedTasksInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
-}
-
-export type UserUpsertWithoutAssignedTasksInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignedTasksInput, Prisma.UserUncheckedUpdateWithoutAssignedTasksInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedTasksInput, Prisma.UserUncheckedCreateWithoutAssignedTasksInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutAssignedTasksInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignedTasksInput, Prisma.UserUncheckedUpdateWithoutAssignedTasksInput>
-}
-
-export type UserUpdateWithoutAssignedTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutAssignedTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserUpsertWithoutCreatedTasksInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTasksInput, Prisma.UserUncheckedUpdateWithoutCreatedTasksInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTasksInput, Prisma.UserUncheckedCreateWithoutCreatedTasksInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCreatedTasksInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTasksInput, Prisma.UserUncheckedUpdateWithoutCreatedTasksInput>
-}
-
-export type UserUpdateWithoutCreatedTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCreatedTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutUploadedDocumentsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutUploadedDocumentsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutUploadedDocumentsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedDocumentsInput, Prisma.UserUncheckedCreateWithoutUploadedDocumentsInput>
-}
-
-export type UserUpsertWithoutUploadedDocumentsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutUploadedDocumentsInput, Prisma.UserUncheckedUpdateWithoutUploadedDocumentsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedDocumentsInput, Prisma.UserUncheckedCreateWithoutUploadedDocumentsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutUploadedDocumentsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutUploadedDocumentsInput, Prisma.UserUncheckedUpdateWithoutUploadedDocumentsInput>
-}
-
-export type UserUpdateWithoutUploadedDocumentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutUploadedDocumentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutDesignCommentsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutDesignCommentsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutDesignCommentsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutDesignCommentsInput, Prisma.UserUncheckedCreateWithoutDesignCommentsInput>
-}
-
-export type UserUpsertWithoutDesignCommentsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutDesignCommentsInput, Prisma.UserUncheckedUpdateWithoutDesignCommentsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutDesignCommentsInput, Prisma.UserUncheckedCreateWithoutDesignCommentsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutDesignCommentsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutDesignCommentsInput, Prisma.UserUncheckedUpdateWithoutDesignCommentsInput>
-}
-
-export type UserUpdateWithoutDesignCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutDesignCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutCommentsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCommentsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCommentsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
-}
-
-export type UserUpsertWithoutCommentsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCommentsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
-}
-
-export type UserUpdateWithoutCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCommentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutNotificationsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentCreateNestedManyWithoutAuthorInput
-}
-
-export type UserUncheckedCreateWithoutNotificationsInput = {
-  id?: string
-  email?: string | null
-  password: string
-  role?: $Enums.Role
-  accountStatus?: $Enums.AccountStatus
-  isEmailVerified?: boolean
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  avatarUrl?: string | null
-  language?: string | null
-  city?: string | null
-  country?: string | null
-  dateOfBirth?: Date | string | null
-  profileCompletedAt?: Date | string | null
-  lastActiveAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedCreateNestedManyWithoutUserInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
-  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
-  clientProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutClientInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
-  createdTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutCreatedByInput
-  uploadedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploadedByInput
-  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
-  designComments?: Prisma.DesignCommentUncheckedCreateNestedManyWithoutAuthorInput
-}
-
-export type UserCreateOrConnectWithoutNotificationsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-}
-
-export type UserUpsertWithoutNotificationsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
-export type UserUpdateWithoutNotificationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUpdateManyWithoutAuthorNestedInput
-}
-
-export type UserUncheckedUpdateWithoutNotificationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  accountStatus?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  displayName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  profileCompletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  otpCodes?: Prisma.OtpCodeUncheckedUpdateManyWithoutUserNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
-  clientProjects?: Prisma.ProjectUncheckedUpdateManyWithoutClientNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
-  createdTasks?: Prisma.TaskUncheckedUpdateManyWithoutCreatedByNestedInput
-  uploadedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUploadedByNestedInput
-  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
-  designComments?: Prisma.DesignCommentUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 
@@ -2408,31 +1115,13 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
  */
 
 export type UserCountOutputType = {
-  otpCodes: number
+  invitees: number
   auditLogs: number
-  managedProjects: number
-  clientProjects: number
-  projectMembers: number
-  assignedTasks: number
-  createdTasks: number
-  uploadedDocuments: number
-  comments: number
-  designComments: number
-  notifications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  otpCodes?: boolean | UserCountOutputTypeCountOtpCodesArgs
+  invitees?: boolean | UserCountOutputTypeCountInviteesArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
-  managedProjects?: boolean | UserCountOutputTypeCountManagedProjectsArgs
-  clientProjects?: boolean | UserCountOutputTypeCountClientProjectsArgs
-  projectMembers?: boolean | UserCountOutputTypeCountProjectMembersArgs
-  assignedTasks?: boolean | UserCountOutputTypeCountAssignedTasksArgs
-  createdTasks?: boolean | UserCountOutputTypeCountCreatedTasksArgs
-  uploadedDocuments?: boolean | UserCountOutputTypeCountUploadedDocumentsArgs
-  comments?: boolean | UserCountOutputTypeCountCommentsArgs
-  designComments?: boolean | UserCountOutputTypeCountDesignCommentsArgs
-  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -2448,8 +1137,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountOtpCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OtpCodeWhereInput
+export type UserCountOutputTypeCountInviteesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserWhereInput
 }
 
 /**
@@ -2459,69 +1148,6 @@ export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.AuditLogWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountManagedProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProjectWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountClientProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProjectWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountProjectMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProjectMemberWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountAssignedTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TaskWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCreatedTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TaskWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountUploadedDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DocumentWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CommentWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountDesignCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DesignCommentWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NotificationWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2529,30 +1155,22 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   role?: boolean
   accountStatus?: boolean
-  isEmailVerified?: boolean
   firstName?: boolean
   lastName?: boolean
   displayName?: boolean
   avatarUrl?: boolean
-  language?: boolean
-  city?: boolean
-  country?: boolean
-  dateOfBirth?: boolean
-  profileCompletedAt?: boolean
+  phone?: boolean
+  verificationCode?: boolean
+  verificationExpires?: boolean
+  passwordResetToken?: boolean
+  passwordResetExpires?: boolean
   lastActiveAt?: boolean
+  invitedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
+  invitedBy?: boolean | Prisma.User$invitedByArgs<ExtArgs>
+  invitees?: boolean | Prisma.User$inviteesArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
-  managedProjects?: boolean | Prisma.User$managedProjectsArgs<ExtArgs>
-  clientProjects?: boolean | Prisma.User$clientProjectsArgs<ExtArgs>
-  projectMembers?: boolean | Prisma.User$projectMembersArgs<ExtArgs>
-  assignedTasks?: boolean | Prisma.User$assignedTasksArgs<ExtArgs>
-  createdTasks?: boolean | Prisma.User$createdTasksArgs<ExtArgs>
-  uploadedDocuments?: boolean | Prisma.User$uploadedDocumentsArgs<ExtArgs>
-  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
-  designComments?: boolean | Prisma.User$designCommentsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2562,19 +1180,20 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   role?: boolean
   accountStatus?: boolean
-  isEmailVerified?: boolean
   firstName?: boolean
   lastName?: boolean
   displayName?: boolean
   avatarUrl?: boolean
-  language?: boolean
-  city?: boolean
-  country?: boolean
-  dateOfBirth?: boolean
-  profileCompletedAt?: boolean
+  phone?: boolean
+  verificationCode?: boolean
+  verificationExpires?: boolean
+  passwordResetToken?: boolean
+  passwordResetExpires?: boolean
   lastActiveAt?: boolean
+  invitedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  invitedBy?: boolean | Prisma.User$invitedByArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2583,19 +1202,20 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   role?: boolean
   accountStatus?: boolean
-  isEmailVerified?: boolean
   firstName?: boolean
   lastName?: boolean
   displayName?: boolean
   avatarUrl?: boolean
-  language?: boolean
-  city?: boolean
-  country?: boolean
-  dateOfBirth?: boolean
-  profileCompletedAt?: boolean
+  phone?: boolean
+  verificationCode?: boolean
+  verificationExpires?: boolean
+  passwordResetToken?: boolean
+  passwordResetExpires?: boolean
   lastActiveAt?: boolean
+  invitedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  invitedBy?: boolean | Prisma.User$invitedByArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -2604,71 +1224,59 @@ export type UserSelectScalar = {
   password?: boolean
   role?: boolean
   accountStatus?: boolean
-  isEmailVerified?: boolean
   firstName?: boolean
   lastName?: boolean
   displayName?: boolean
   avatarUrl?: boolean
-  language?: boolean
-  city?: boolean
-  country?: boolean
-  dateOfBirth?: boolean
-  profileCompletedAt?: boolean
+  phone?: boolean
+  verificationCode?: boolean
+  verificationExpires?: boolean
+  passwordResetToken?: boolean
+  passwordResetExpires?: boolean
   lastActiveAt?: boolean
+  invitedById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "role" | "accountStatus" | "isEmailVerified" | "firstName" | "lastName" | "displayName" | "avatarUrl" | "language" | "city" | "country" | "dateOfBirth" | "profileCompletedAt" | "lastActiveAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "role" | "accountStatus" | "firstName" | "lastName" | "displayName" | "avatarUrl" | "phone" | "verificationCode" | "verificationExpires" | "passwordResetToken" | "passwordResetExpires" | "lastActiveAt" | "invitedById" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
+  invitedBy?: boolean | Prisma.User$invitedByArgs<ExtArgs>
+  invitees?: boolean | Prisma.User$inviteesArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
-  managedProjects?: boolean | Prisma.User$managedProjectsArgs<ExtArgs>
-  clientProjects?: boolean | Prisma.User$clientProjectsArgs<ExtArgs>
-  projectMembers?: boolean | Prisma.User$projectMembersArgs<ExtArgs>
-  assignedTasks?: boolean | Prisma.User$assignedTasksArgs<ExtArgs>
-  createdTasks?: boolean | Prisma.User$createdTasksArgs<ExtArgs>
-  uploadedDocuments?: boolean | Prisma.User$uploadedDocumentsArgs<ExtArgs>
-  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
-  designComments?: boolean | Prisma.User$designCommentsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  invitedBy?: boolean | Prisma.User$invitedByArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  invitedBy?: boolean | Prisma.User$invitedByArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    otpCodes: Prisma.$OtpCodePayload<ExtArgs>[]
+    invitedBy: Prisma.$UserPayload<ExtArgs> | null
+    invitees: Prisma.$UserPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
-    managedProjects: Prisma.$ProjectPayload<ExtArgs>[]
-    clientProjects: Prisma.$ProjectPayload<ExtArgs>[]
-    projectMembers: Prisma.$ProjectMemberPayload<ExtArgs>[]
-    assignedTasks: Prisma.$TaskPayload<ExtArgs>[]
-    createdTasks: Prisma.$TaskPayload<ExtArgs>[]
-    uploadedDocuments: Prisma.$DocumentPayload<ExtArgs>[]
-    comments: Prisma.$CommentPayload<ExtArgs>[]
-    designComments: Prisma.$DesignCommentPayload<ExtArgs>[]
-    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    email: string | null
+    email: string
     password: string
     role: $Enums.Role
     accountStatus: $Enums.AccountStatus
-    isEmailVerified: boolean
     firstName: string | null
     lastName: string | null
     displayName: string | null
     avatarUrl: string | null
-    language: string | null
-    city: string | null
-    country: string | null
-    dateOfBirth: Date | null
-    profileCompletedAt: Date | null
+    phone: string | null
+    verificationCode: string | null
+    verificationExpires: Date | null
+    passwordResetToken: string | null
+    passwordResetExpires: Date | null
     lastActiveAt: Date | null
+    invitedById: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -3065,17 +1673,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  otpCodes<T extends Prisma.User$otpCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otpCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  invitedBy<T extends Prisma.User$invitedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invitedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  invitees<T extends Prisma.User$inviteesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$inviteesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  managedProjects<T extends Prisma.User$managedProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managedProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  clientProjects<T extends Prisma.User$clientProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clientProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  projectMembers<T extends Prisma.User$projectMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  assignedTasks<T extends Prisma.User$assignedTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  createdTasks<T extends Prisma.User$createdTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  uploadedDocuments<T extends Prisma.User$uploadedDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$uploadedDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  designComments<T extends Prisma.User$designCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$designCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DesignCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3110,17 +1710,17 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly accountStatus: Prisma.FieldRef<"User", 'AccountStatus'>
-  readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly firstName: Prisma.FieldRef<"User", 'String'>
   readonly lastName: Prisma.FieldRef<"User", 'String'>
   readonly displayName: Prisma.FieldRef<"User", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
-  readonly language: Prisma.FieldRef<"User", 'String'>
-  readonly city: Prisma.FieldRef<"User", 'String'>
-  readonly country: Prisma.FieldRef<"User", 'String'>
-  readonly dateOfBirth: Prisma.FieldRef<"User", 'DateTime'>
-  readonly profileCompletedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly verificationCode: Prisma.FieldRef<"User", 'String'>
+  readonly verificationExpires: Prisma.FieldRef<"User", 'DateTime'>
+  readonly passwordResetToken: Prisma.FieldRef<"User", 'String'>
+  readonly passwordResetExpires: Prisma.FieldRef<"User", 'DateTime'>
   readonly lastActiveAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly invitedById: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -3377,6 +1977,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -3447,6 +2051,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -3516,27 +2124,46 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.otpCodes
+ * User.invitedBy
  */
-export type User$otpCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$invitedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the OtpCode
+   * Select specific fields to fetch from the User
    */
-  select?: Prisma.OtpCodeSelect<ExtArgs> | null
+  select?: Prisma.UserSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the OtpCode
+   * Omit specific fields from the User
    */
-  omit?: Prisma.OtpCodeOmit<ExtArgs> | null
+  omit?: Prisma.UserOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.OtpCodeInclude<ExtArgs> | null
-  where?: Prisma.OtpCodeWhereInput
-  orderBy?: Prisma.OtpCodeOrderByWithRelationInput | Prisma.OtpCodeOrderByWithRelationInput[]
-  cursor?: Prisma.OtpCodeWhereUniqueInput
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * User.invitees
+ */
+export type User$inviteesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
+  cursor?: Prisma.UserWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.OtpCodeScalarFieldEnum | Prisma.OtpCodeScalarFieldEnum[]
+  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
 /**
@@ -3561,222 +2188,6 @@ export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
-}
-
-/**
- * User.managedProjects
- */
-export type User$managedProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Project
-   */
-  select?: Prisma.ProjectSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Project
-   */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectInclude<ExtArgs> | null
-  where?: Prisma.ProjectWhereInput
-  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
-  cursor?: Prisma.ProjectWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
-}
-
-/**
- * User.clientProjects
- */
-export type User$clientProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Project
-   */
-  select?: Prisma.ProjectSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Project
-   */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectInclude<ExtArgs> | null
-  where?: Prisma.ProjectWhereInput
-  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
-  cursor?: Prisma.ProjectWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
-}
-
-/**
- * User.projectMembers
- */
-export type User$projectMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ProjectMember
-   */
-  select?: Prisma.ProjectMemberSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ProjectMember
-   */
-  omit?: Prisma.ProjectMemberOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectMemberInclude<ExtArgs> | null
-  where?: Prisma.ProjectMemberWhereInput
-  orderBy?: Prisma.ProjectMemberOrderByWithRelationInput | Prisma.ProjectMemberOrderByWithRelationInput[]
-  cursor?: Prisma.ProjectMemberWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProjectMemberScalarFieldEnum | Prisma.ProjectMemberScalarFieldEnum[]
-}
-
-/**
- * User.assignedTasks
- */
-export type User$assignedTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Task
-   */
-  select?: Prisma.TaskSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Task
-   */
-  omit?: Prisma.TaskOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TaskInclude<ExtArgs> | null
-  where?: Prisma.TaskWhereInput
-  orderBy?: Prisma.TaskOrderByWithRelationInput | Prisma.TaskOrderByWithRelationInput[]
-  cursor?: Prisma.TaskWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
-}
-
-/**
- * User.createdTasks
- */
-export type User$createdTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Task
-   */
-  select?: Prisma.TaskSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Task
-   */
-  omit?: Prisma.TaskOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TaskInclude<ExtArgs> | null
-  where?: Prisma.TaskWhereInput
-  orderBy?: Prisma.TaskOrderByWithRelationInput | Prisma.TaskOrderByWithRelationInput[]
-  cursor?: Prisma.TaskWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TaskScalarFieldEnum | Prisma.TaskScalarFieldEnum[]
-}
-
-/**
- * User.uploadedDocuments
- */
-export type User$uploadedDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Document
-   */
-  select?: Prisma.DocumentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Document
-   */
-  omit?: Prisma.DocumentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DocumentInclude<ExtArgs> | null
-  where?: Prisma.DocumentWhereInput
-  orderBy?: Prisma.DocumentOrderByWithRelationInput | Prisma.DocumentOrderByWithRelationInput[]
-  cursor?: Prisma.DocumentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
-}
-
-/**
- * User.comments
- */
-export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Comment
-   */
-  select?: Prisma.CommentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Comment
-   */
-  omit?: Prisma.CommentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CommentInclude<ExtArgs> | null
-  where?: Prisma.CommentWhereInput
-  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
-  cursor?: Prisma.CommentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
-}
-
-/**
- * User.designComments
- */
-export type User$designCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DesignComment
-   */
-  select?: Prisma.DesignCommentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DesignComment
-   */
-  omit?: Prisma.DesignCommentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DesignCommentInclude<ExtArgs> | null
-  where?: Prisma.DesignCommentWhereInput
-  orderBy?: Prisma.DesignCommentOrderByWithRelationInput | Prisma.DesignCommentOrderByWithRelationInput[]
-  cursor?: Prisma.DesignCommentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DesignCommentScalarFieldEnum | Prisma.DesignCommentScalarFieldEnum[]
-}
-
-/**
- * User.notifications
- */
-export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Notification
-   */
-  select?: Prisma.NotificationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Notification
-   */
-  omit?: Prisma.NotificationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationInclude<ExtArgs> | null
-  where?: Prisma.NotificationWhereInput
-  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

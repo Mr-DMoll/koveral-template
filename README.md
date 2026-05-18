@@ -1,159 +1,149 @@
-# Turborepo starter
+# Koveral Template
 
-This Turborepo starter is maintained by the Turborepo core team.
+A full-stack monorepo template by Koveral. Ships with auth, role-based access, super admin and admin dashboards — ready to extend.
 
-## Using this example
+## Stack
 
-Run the following command:
+- **Frontend**: Next.js 16 (App Router) — `apps/web`
+- **Backend**: Express + TypeScript — `apps/api`
+- **Database**: PostgreSQL via Prisma + Supabase
+- **Monorepo**: Turborepo + pnpm workspaces
+- **Auth**: JWT + httpOnly cookies
 
-```sh
-npx create-turbo@latest
+## Roles
+
+| Role          | Access                              |
+|---------------|-------------------------------------|
+| `SUPER_ADMIN` | Full platform access, manages admins |
+| `ADMIN`       | Manages users, platform settings    |
+| `USER`        | Custom — add your own dashboard     |
+
+## Quick Start
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/your-org/your-repo
+cd your-repo
+pnpm install
 ```
 
-## What's inside?
+### 2. Set up environment
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+cp .env.example .env
 ```
 
-Without global `turbo`, use your package manager:
+Fill in `.env`:
 
-```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```env
+# Database (from Supabase)
+DATABASE_URL=postgresql://...
+DIRECT_URL=postgresql://...
+
+# Auth
+JWT_SECRET=your-secret-key-here
+
+# URLs
+FRONTEND_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
+
+# Email (Resend)
+RESEND_API_KEY=re_...
+SENDER_EMAIL=noreply@yourdomain.com
+
+# AI (optional)
+ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+### 3. Set up database
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+```bash
+# Push schema to Supabase
+pnpm --filter @repo/database run db:push
 
-```sh
-turbo build --filter=docs
+# Seed super admin
+pnpm --filter @repo/database run seed
 ```
 
-Without global `turbo`:
+Default super admin credentials:
+- Email: `superadmin@example.com`
+- Password: `SuperAdmin123!`
 
-```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+⚠️ **Change this password immediately after first login.**
+
+### 4. Start development
+
+```bash
+pnpm dev
 ```
 
-### Develop
+- Frontend: http://localhost:3000
+- API: http://localhost:3001
 
-To develop all apps and packages, run the following command:
+## Project Structure
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+```
+apps/
+├── api/          Express API
+│   └── src/
+│       ├── modules/
+│       │   ├── auth/         Login, invite, verify
+│       │   ├── users/        User CRUD
+│       │   ├── admin/        Admin dashboard + user management
+│       │   ├── super-admin/  Platform stats + admin management
+│       │   └── system/       Health check
+│       ├── middleware/       Auth, roles, errors
+│       └── services/         Mail, SMS, storage
+└── web/          Next.js frontend
+    └── src/
+        ├── features/
+        │   └── auth/         Login, set-password, verify pages
+        ├── shared/
+        │   ├── components/   UI components, layout, sidebar
+        │   ├── context/      Auth, Theme
+        │   └── config/       Nav config
+        └── app/
+            ├── (auth)/       Public auth pages
+            ├── (dashboard)/  Protected dashboard pages
+            └── (marketing)/  Public landing page
 
-```sh
-cd my-turborepo
-turbo dev
+packages/
+├── database/     Prisma client + schema
+├── types/        Shared TypeScript types
+└── ...
 ```
 
-Without global `turbo`, use your package manager:
+## Customising
 
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+### Add a new role
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+1. Add to `packages/database/prisma/schema.prisma` → `enum Role`
+2. Add to `packages/types/src/enums.ts` → `Role`
+3. Add nav items to `apps/web/src/shared/config/nav.config.ts`
+4. Create dashboard pages in `apps/web/app/(dashboard)/your-role/`
+5. Create API module in `apps/api/src/modules/your-module/`
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### Change app name
 
-```sh
-turbo dev --filter=web
-```
+Search and replace `My App` with your project name across:
+- `apps/web/src/features/marketing/pages/LandingPage.tsx`
+- `packages/database/prisma/seed.ts`
+- `README.md`
 
-Without global `turbo`:
+### Enable self-registration
 
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+In the admin settings dashboard, toggle registration mode from `INVITE_ONLY` to `SELF_REGISTER`.
 
-### Remote Caching
+## Deployment
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+This template is configured for:
+- **Frontend**: Vercel
+- **API**: Railway
+- **Database**: Supabase
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Deployed automatically via the Koveral bootstrapper when you create a new project in O-Bit.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+Built with ❤️ by [Koveral](https://koveral.com)
