@@ -1,3 +1,3 @@
-import  SystemHealthPage  from "@/features/super-admin/pages/SystemPage";
-
-export default SystemHealthPage;
+export default function SystemPage() {
+  return <div />;
+}

@@ -1,3 +1,2 @@
-import { SuperAdminOverviewPage } from "@/features/super-admin/pages/OverviewPage";
-
-export default SuperAdminOverviewPage;
+import SuperAdminOverview from "@/features/super-admin/pages/OverviewPage";
+export default SuperAdminOverview;

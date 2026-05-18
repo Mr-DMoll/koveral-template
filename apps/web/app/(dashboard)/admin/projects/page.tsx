@@ -1,2 +1,3 @@
-import { AdminProjectsPage } from "@/features/admin/pages/ProjectsPage";
-export default function Page() { return <AdminProjectsPage />; }
+export default function AdminProjectsPage() {
+  return <div />;
+}
