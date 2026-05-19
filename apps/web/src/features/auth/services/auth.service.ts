@@ -18,6 +18,7 @@ export interface VerifyCodeData {
 
 export interface SetPasswordData {
   token: string;
+  email: string;
   password: string;
 }
 
