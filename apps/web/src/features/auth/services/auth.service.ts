@@ -42,7 +42,7 @@ export const authService = {
   },
 
   async setPassword(data: SetPasswordData) {
-    const { data: response } = await apiClient.patch(endpoints.auth.setPassword, data);
+    const { data: response } = await apiClient.post(endpoints.auth.setPassword, data);
     return response;
   },
 

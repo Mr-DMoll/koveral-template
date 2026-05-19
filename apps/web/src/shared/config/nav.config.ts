@@ -7,7 +7,7 @@ export interface NavItem {
 export const NAV_CONFIG: Record<string, NavItem[]> = {
   SUPER_ADMIN: [
     { href: "/super-admin",        label: "Overview", icon: "LayoutDashboard" },
-    { href: "/super-admin/admins", label: "Admins",   icon: "Shield" },
+    { href: "/super-admin/admins", label: "Admins",   icon: "Users" },
     { href: "/super-admin/system", label: "System",   icon: "Settings" },
   ],
   ADMIN: [

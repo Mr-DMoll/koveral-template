@@ -65,7 +65,8 @@ function PasswordStrength({ password }: { password: string }) {
 export default function SetPasswordPage() {
   const router       = useRouter();
   const searchParams = useSearchParams();
-  const token        = searchParams.get("token");
+  const token = searchParams.get("token");
+  const email = searchParams.get("email") ?? "";
 
   const [password,         setPassword]         = useState("");
   const [confirmPassword,  setConfirmPassword]  = useState("");
@@ -89,7 +90,7 @@ export default function SetPasswordPage() {
     if (!isValid) return;
     setIsSubmitting(true); setError(null);
     try {
-      await authService.setPassword({ token, password });
+      await authService.setPassword({ token, email, password });
       setIsDone(true);
       setTimeout(() => router.push("/login"), 2000);
     } catch (err: any) {
